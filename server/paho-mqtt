@@ -1,0 +1,9 @@
+Setup:
+https://pypi.org/project/paho-mqtt/
+
+#in /opt/
+virtualenv -p python3 paho-mqtt
+source paho-mqtt/bin/activate
+pip3 install paho-mqtt
+
+

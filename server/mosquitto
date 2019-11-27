@@ -1,0 +1,11 @@
+Konfiguration:
+
+vim /etc/mosquitto/conf.d/protocols.conf
+
+listener 1883
+protocol mqtt
+
+listener 1884
+protocol websockets
+
+hier weiter machen: https://mosquitto.org/man/mosquitto-conf-5.html
