@@ -1,8 +1,6 @@
 // General project definitions
 #include "common.hpp"
 
-// Board-specific
-#include "heltec.h"
 // Peripherie
 
 // Include Other parts
@@ -10,6 +8,7 @@
 // Globals
 OPERATION_MODE op_mode;
 AirQualityWifi air_wifi;
+Display display;
 
 void setup() {
   Serial.begin(115200);
@@ -27,10 +26,8 @@ void setup() {
     op_mode = config;
   }
   air_wifi.init();
-  /* Heltec.display->clear();
-  Heltec.display->drawString(0, 0, "Connecting with");
-  Heltec.display->drawString(0, 10, ssid);
-  Heltec.display->display();
+  display.init();
+  /* 
 
   // Print out success
   Heltec.display->clear();

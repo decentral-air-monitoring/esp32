@@ -5,6 +5,8 @@
 
 #include <WiFi.h>
 
+#define ConfigModeSSID "AirQualitySetup"
+
 class AirQualityWifi {
     public:
         AirQualityWifi();

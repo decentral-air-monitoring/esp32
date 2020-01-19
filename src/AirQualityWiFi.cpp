@@ -7,7 +7,7 @@ void AirQualityWifi::init() {
     switch(op_mode) {
         case config:
             WiFi.mode(WIFI_AP);
-            WiFi.softAP("AirQualitySetup", "insecure-default-todo");
+            WiFi.softAP(ConfigModeSSID, "insecure-default-todo");
             Serial.println("WiFi Config Mode");
         break;
         case normal:
