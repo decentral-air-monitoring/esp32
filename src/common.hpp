@@ -3,9 +3,11 @@
 
 #include <Arduino.h>
 #include "heltec.h"
+#include "config.hpp"
 #include "AirQualityWiFi.hpp"
 #include "Display.hpp"
-#include "config.hpp"
+#include "ConfigMode.hpp"
+
 
 enum OPERATION_MODE {config, normal};
 extern OPERATION_MODE op_mode;

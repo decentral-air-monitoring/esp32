@@ -9,6 +9,7 @@
 OPERATION_MODE op_mode;
 AirQualityWifi air_wifi;
 Display display;
+ConfigMode config_mode;
 
 void setup() {
   Serial.begin(115200);
@@ -27,6 +28,9 @@ void setup() {
   }
   air_wifi.init();
   display.init();
+  if(op_mode == config) {
+    config_mode.init();
+  }
   /* 
 
   // Print out success
@@ -40,4 +44,7 @@ void setup() {
 }
 
 void loop() {
+  if(op_mode == config) {
+    config_mode.handle();
+  }
 }
