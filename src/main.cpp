@@ -1,4 +1,5 @@
-#include <Arduino.h>
+// General project definitions
+#include "common.hpp"
 // ESP32-specific
 #include <WiFi.h>
 // Board-specific
@@ -9,6 +10,9 @@
 
 // Include Other parts
 #include "config.hpp"
+
+// Globals
+OPERATION_MODE op_mode;
 
 char ssid[] = "ffm.freifunk.net"; // ToDo: Dynamic configurable
 
@@ -21,10 +25,11 @@ void setup() {
   if(preferences.getBool("configured", false)) {
     // Start normal operation
     Serial.println("operation mode");
+    op_mode = normal;
   } else {
     // Enter config mode
     Serial.println("configuration mode");
-
+    op_mode = config;
   }
   // Connect to WiFi
   /* Heltec.display->clear();

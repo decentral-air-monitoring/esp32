@@ -1,0 +1,9 @@
+#ifndef COMMON_HPP
+#define COMMON_HPP
+
+#include <Arduino.h>
+
+enum OPERATION_MODE {config, normal};
+extern OPERATION_MODE op_mode;
+
+#endif
