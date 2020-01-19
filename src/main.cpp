@@ -1,20 +1,15 @@
 // General project definitions
 #include "common.hpp"
-// ESP32-specific
-#include <WiFi.h>
+
 // Board-specific
 #include "heltec.h"
 // Peripherie
 
-// Data
-
 // Include Other parts
-#include "config.hpp"
 
 // Globals
 OPERATION_MODE op_mode;
-
-char ssid[] = "ffm.freifunk.net"; // ToDo: Dynamic configurable
+AirQualityWifi air_wifi;
 
 void setup() {
   Serial.begin(115200);
@@ -31,16 +26,12 @@ void setup() {
     Serial.println("configuration mode");
     op_mode = config;
   }
-  // Connect to WiFi
+  air_wifi.init();
   /* Heltec.display->clear();
   Heltec.display->drawString(0, 0, "Connecting with");
   Heltec.display->drawString(0, 10, ssid);
   Heltec.display->display();
-  Serial.printf("Connect with %s\n",ssid);
-  WiFi.mode(WIFI_STA);
-  WiFi.begin(ssid);
-  // Wait for connection
-  while(!WiFi.isConnected()); // ToDo: Rebuild with events
+
   // Print out success
   Heltec.display->clear();
   Heltec.display->drawString(0,0,"Connected!");
