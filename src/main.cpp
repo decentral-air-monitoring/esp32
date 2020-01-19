@@ -7,13 +7,27 @@
 
 // Data
 
+// Include Other parts
+#include "config.hpp"
+
 char ssid[] = "ffm.freifunk.net"; // ToDo: Dynamic configurable
 
 void setup() {
   Serial.begin(115200);
+  // Setup Configuration
+  initConfig();
   Heltec.begin(true /*DisplayEnable Enable*/, false /*LoRa Disable*/, true /*Serial Enable*/);
+  // Check Mode
+  if(preferences.getBool("configured", false)) {
+    // Start normal operation
+    Serial.println("operation mode");
+  } else {
+    // Enter config mode
+    Serial.println("configuration mode");
+
+  }
   // Connect to WiFi
-  Heltec.display->clear();
+  /* Heltec.display->clear();
   Heltec.display->drawString(0, 0, "Connecting with");
   Heltec.display->drawString(0, 10, ssid);
   Heltec.display->display();
@@ -29,7 +43,7 @@ void setup() {
   Heltec.display->display();
   Serial.println("Connected!");
   Serial.println(WiFi.localIP().toString());
-  // ToDo: PubSubClient
+  // ToDo: PubSubClient */
 }
 
 void loop() {
