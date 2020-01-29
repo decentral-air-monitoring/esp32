@@ -1,5 +1,5 @@
 import paho.mqtt.client as mqtt
-
+from settings import mqtt_credentials, config
 
 def on_connect(client, userdata, flags, rc):
     """
@@ -14,7 +14,7 @@ def on_connect(client, userdata, flags, rc):
 
     # Subscribing in on_connect() means that if we lose the connection and
     # reconnect then subscriptions will be renewed.
-    client.subscribe("test/#")
+    client.subscribe(config.MQTT_TOPIC)
 
 
 def on_message(client, userdata, msg):
@@ -26,14 +26,13 @@ def on_message(client, userdata, msg):
     :return: nothing
     """
     print(msg.topic+" "+str(msg.payload))
-    print(userdata.par)
 
 
 client = mqtt.Client()
 client.on_connect = on_connect
 client.on_message = on_message
-
-client.connect(host="localhost", port=1883, keepalive=60)
+client.username_pw_set(username=mqtt_credentials.USERNAME, password=mqtt_credentials.PASSWORD)
+client.connect(host=config.MQTT_HOST, port=config.MQTT_PORT, keepalive=config.MQTT_KEEPALIVE)
 
 # Blocking call that processes network traffic, dispatches callbacks and
 # handles reconnecting.
