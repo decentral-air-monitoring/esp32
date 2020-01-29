@@ -1,11 +1,19 @@
 Konfiguration:
 
-vim /etc/mosquitto/conf.d/protocols.conf
+link to the configuration in the git repo
 
-listener 1883
-protocol mqtt
+    rm /etc/mosquitto/mosquitto.conf
+    ln -s /opt/decentral-air-quality-monitoring/server/mosquitto.conf /etc/mosquitto/mosquitto.conf
 
-listener 1884
-protocol websockets
+create new mosquitto user
 
-hier weiter machen: https://mosquitto.org/man/mosquitto-conf-5.html
+    mosquitto_passwd -c /etc/mosquitto/pwfile testuser
+
+Create the directory where persistence db files will be stored, change owner to mosquitto:
+
+    mkdir /var/lib/mosquitto/
+    chown mosquitto:mosquitto /var/lib/mosquitto/ -R  
+
+    /sbin/ldconfig
+
+https://www.digitalocean.com/community/questions/how-to-setup-a-mosquitto-mqtt-server-and-receive-data-from-owntracks
