@@ -1,3 +1,4 @@
+import influxdb
 import paho.mqtt.client as mqtt
 from settings import mqtt_credentials, config
 
@@ -29,8 +30,11 @@ def on_message(client, userdata, msg):
 
 
 client = mqtt.Client()
+
 client.on_connect = on_connect
 client.on_message = on_message
+client.tls_set()
+client.tls_insecure_set(True)
 client.username_pw_set(username=mqtt_credentials.USERNAME, password=mqtt_credentials.PASSWORD)
 client.connect(host=config.MQTT_HOST, port=config.MQTT_PORT, keepalive=config.MQTT_KEEPALIVE)
 
