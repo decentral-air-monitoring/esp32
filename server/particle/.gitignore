@@ -1,3 +1,4 @@
 .idea/*
 venv/*
 settings/mqtt_credentials.py
+*__pycache__*
