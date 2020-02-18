@@ -5,7 +5,7 @@
 
 #include <Preferences.h>
 
-enum CONFIG_TYPE {
+enum class CONFIG_TYPE {
     INT,
     BOOL,
     STRING
@@ -22,7 +22,12 @@ class Config{
         void init();
         boolean getBool(String key);
     private:
+        const config_item keys[2] = {
+            {"CONFIGURED", CONFIG_TYPE::BOOL },
+            {"AP_NAME", CONFIG_TYPE::STRING }
+        };
         Preferences preferences;
+        boolean itemExists(String item);
 };
 
 #endif
