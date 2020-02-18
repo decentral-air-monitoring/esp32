@@ -3,7 +3,7 @@
 
 #include <Arduino.h>
 #include "heltec.h"
-#include "config.hpp"
+#include "Config.hpp"
 #include "AirQualityWiFi.hpp"
 #include "Display.hpp"
 #include "ConfigMode.hpp"
