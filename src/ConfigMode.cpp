@@ -24,11 +24,11 @@ void ConfigMode::serialReceive() {
     char value[20] = "";
     char dummy[1];
     sscanf(this->serialBuffer,"%s%[=]%s",key,dummy,value);
-    if(preferences.putString(key,value)) { // ToDo: Don't use preferences directly, but use an interface to a config class
+    /*if(preferences.putString(key,value)) { // ToDo: Don't use preferences directly, but use an interface to a config class
         Serial.printf("Set %s to %s\n", key, value);
     } else {
         Serial.println("Error setting preferences!");
-    }
+    }*/
 }
 
 WebServer::THandlerFunction ConfigMode::formular() {

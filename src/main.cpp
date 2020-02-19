@@ -10,14 +10,15 @@ OPERATION_MODE op_mode;
 AirQualityWifi air_wifi;
 Display display;
 ConfigMode config_mode;
+Config configuration;
 
 void setup() {
   Serial.begin(115200);
   // Setup Configuration
-  initConfig();
+  configuration.init();
   Heltec.begin(true /*DisplayEnable Enable*/, false /*LoRa Disable*/, true /*Serial Enable*/);
   // Check Mode
-  if(preferences.getBool("configured", false)) {
+  if(configuration.getBool("configured")) {
     // Start normal operation
     Serial.println("operation mode");
     op_mode = normal;
