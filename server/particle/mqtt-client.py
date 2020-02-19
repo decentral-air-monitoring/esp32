@@ -14,7 +14,7 @@ def model_values(msg):
     :return:
     """
     try:
-        stationID, statuscode, pm1, pm2_5, pm4, pm10, temperature, humidity, pressure = msg.payload.split(',')
+        stationID, statuscode, pm1, pm2_5, pm4, pm10, temperature, humidity, pressure = msg.payload.decode('utf-8').split(',')
     except ValueError as err:
         logging.error(err.error, "wrong data format")
 
@@ -22,26 +22,26 @@ def model_values(msg):
         {
             "measurement": "environment",
             "tags": {
-                "stationID": stationID,
-                "statuscode": statuscode
+                "stationID": int(stationID),
+                "statuscode": int(statuscode)
             },
             "fields":{
-                "temperature": temperature,
-                "humidity": humidity,
-                "pressure": pressure
+                "temperature": int(temperature),
+                "humidity": int(humidity),
+                "pressure": int(pressure)
             }
         },
         {
             "measurement": "particles",
             "tags": {
-                "stationID": stationID,
-                "statuscode": statuscode
+                "stationID": int(stationID),
+                "statuscode": int(statuscode)
             },
             "fields":{
-                "pm1": pm1,
-                "pm2_5": pm2_5,
-                "pm4": pm4,
-                "pm10": pm10
+                "pm1": int(pm1),
+                "pm2_5": int(pm2_5),
+                "pm4": int(pm4),
+                "pm10": int(pm10)
             }
         }
     ]
