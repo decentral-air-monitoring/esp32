@@ -8,11 +8,18 @@ void Config::init() {
     this->preferences.begin("air-quality");
 }
 
-boolean Config::getBool(const char * key) { // Stub
+boolean Config::getBool(const char * key) {
     if(this->itemExists(key)) {
-        return preferences.getBool(key, false);
+        return this->preferences.getBool(key, false);
     };
     return false;
+}
+
+String Config::getString(const char * key) {
+    if(this->itemExists(key)) {
+        return this->preferences.getString(key, "");
+    };
+    return "false";
 }
 
 boolean Config::itemExists(const char * item) {

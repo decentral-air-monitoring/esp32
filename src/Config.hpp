@@ -21,6 +21,7 @@ class Config{
         Config();
         void init();
         boolean getBool(const char * key);
+        String getString(const char * key);
     private:
         const config_item keys[2] = {
             {"CONFIGURED", CONFIG_TYPE::BOOL },
