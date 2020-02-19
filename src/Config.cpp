@@ -8,16 +8,16 @@ void Config::init() {
     this->preferences.begin("air-quality");
 }
 
-boolean Config::getBool(String key) { // Stub
+boolean Config::getBool(const char * key) { // Stub
     if(this->itemExists(key)) {
-        // ToDo: Return Value
+        return preferences.getBool(key, false);
     };
     return false;
 }
 
-boolean Config::itemExists(String item) {
+boolean Config::itemExists(const char * item) {
     for(int i=0;i<sizeof(this->keys);i++) {
-        if(!item.compareTo(keys[i].key)) {
+        if(!strcmp(item,keys[i].key)) {
             return true;
         }
     }

@@ -12,7 +12,7 @@ enum class CONFIG_TYPE {
 };
 
 struct config_item {
-  String key;
+  char key[20];
   CONFIG_TYPE type;
 };
 
@@ -20,14 +20,14 @@ class Config{
     public:
         Config();
         void init();
-        boolean getBool(String key);
+        boolean getBool(const char * key);
     private:
         const config_item keys[2] = {
             {"CONFIGURED", CONFIG_TYPE::BOOL },
             {"AP_NAME", CONFIG_TYPE::STRING }
         };
         Preferences preferences;
-        boolean itemExists(String item);
+        boolean itemExists(const char * item);
 };
 
 #endif

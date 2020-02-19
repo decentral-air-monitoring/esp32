@@ -2,7 +2,6 @@
 #define COMMON_HPP
 
 #include <Arduino.h>
-#include <string>
 #include "heltec.h"
 #include "Config.hpp"
 #include "AirQualityWiFi.hpp"
