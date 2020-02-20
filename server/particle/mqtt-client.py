@@ -1,68 +1,7 @@
 import paho.mqtt.client as mqtt
-import logging
-from settings import mqtt_credentials, influx_credentials, config
-from influxdb import InfluxDBClient
+from influxwrite import InfluxWrite
+from settings import mqtt_credentials, config
 
-###############################################################################
-# InfluxDB
-###############################################################################
-
-def model_values(msg):
-    """
-
-    :param msg:
-    :return:
-    """
-    try:
-        stationID, statuscode, pm1, pm2_5, pm4, pm10, temperature, humidity, pressure = msg.payload.decode('utf-8').split(',')
-    except ValueError as err:
-        logging.error(err.error, "wrong data format")
-
-    sensorData = [
-        {
-            "measurement": "environment",
-            "tags": {
-                "stationID": int(stationID),
-                "statuscode": int(statuscode)
-            },
-            "fields":{
-                "temperature": int(temperature),
-                "humidity": int(humidity),
-                "pressure": int(pressure)
-            }
-        },
-        {
-            "measurement": "particles",
-            "tags": {
-                "stationID": int(stationID),
-                "statuscode": int(statuscode)
-            },
-            "fields":{
-                "pm1": int(pm1),
-                "pm2_5": int(pm2_5),
-                "pm4": int(pm4),
-                "pm10": int(pm10)
-            }
-        }
-    ]
-
-    return sensorData
-
-def store_data(sensorData):
-    """
-
-    :param sensorData:
-    :return:
-    """
-    influx_client = InfluxDBClient(config.INFLUX_HOST, config.INFLUX_PORT, influx_credentials.USERNAME,
-                                   influx_credentials.PASSWORD, config.INFLUX_DATABASE)
-
-    if config.INFLUX_DATABASE in (item['name'] for item in client.query('show databases').get_points()):
-        logging.info("database already exists")
-    else:
-        influx_client.create_database(config.INFLUX_DATABASE)
-
-    influx_client.write_points(sensorData)
 
 ###############################################################################
 #   mqtt callback functions
@@ -94,12 +33,12 @@ def on_message(client, userdata, msg):
     :param msg: object containing received mqtt message
     :return: nothing
     """
-    global model_values
-    global store_data
+    global InfluxWrite.model_values
+    global InfluxWrite.store_data
     try:
         print(msg.topic+" "+str(msg.payload))
-        sensorData = model_values(msg)
-        store_data(sensorData)
+        sensorData = InfluxWrite.model_values(msg)
+        InfluxWrite.store_data(sensorData)
     except Exception as e:
         print(e)
     
