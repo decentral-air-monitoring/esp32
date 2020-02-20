@@ -1,5 +1,5 @@
 import paho.mqtt.client as mqtt
-from influxwrite import InfluxWrite
+from influxwrite import model_values, store_data
 from settings import mqtt_credentials, config
 
 
@@ -33,12 +33,12 @@ def on_message(client, userdata, msg):
     :param msg: object containing received mqtt message
     :return: nothing
     """
-    #global model_values
-    #global store_data
+    global model_values
+    global store_data
     try:
         print(msg.topic+" "+str(msg.payload))
-        sensorData = InfluxWrite.model_values(msg)
-        InfluxWrite.store_data(sensorData)
+        sensorData = model_values(msg)
+        store_data(sensorData)
     except Exception as e:
         print(e)
     
