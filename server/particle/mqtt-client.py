@@ -33,8 +33,8 @@ def on_message(client, userdata, msg):
     :param msg: object containing received mqtt message
     :return: nothing
     """
-    global InfluxWrite.model_values
-    global InfluxWrite.store_data
+    #global model_values
+    #global store_data
     try:
         print(msg.topic+" "+str(msg.payload))
         sensorData = InfluxWrite.model_values(msg)

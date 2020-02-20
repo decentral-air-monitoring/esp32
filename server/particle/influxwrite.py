@@ -7,6 +7,7 @@ from settings import mqtt_credentials, influx_credentials, config
 ###############################################################################
 
 class InfluxWrite:
+    global model_values
     def model_values(msg):
         """
 
@@ -48,6 +49,7 @@ class InfluxWrite:
 
         return sensorData
 
+    global store_data
     def store_data(sensorData):
         """
 
