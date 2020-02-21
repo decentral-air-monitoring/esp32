@@ -18,7 +18,7 @@ def model_values(msg):
     try:
         stationID, statuscode, pm1, pm2_5, pm4, pm10, temperature, humidity, pressure = [int(value) for value in msg.payload.decode('utf-8').split(',')]
     except ValueError as err:
-        logging.error(err.error, "wrong data format")
+        logging.error(err.error + "wrong data format")
 
     sensorData = [
         {

@@ -1,4 +1,7 @@
 # How to set up the Server
+ * useradd particle
+ * mkdir /var/log/particle
+ * chown particle:particle /var/log/particle
  * cd /opt
  * git clone https://github.com/firefly-serenity/decentral-air-quality-monitoring.git
  * cd /opt/decentral-air-quality-monitoring/server/particle

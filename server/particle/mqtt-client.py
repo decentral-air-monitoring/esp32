@@ -3,8 +3,7 @@
 
 import paho.mqtt.client as mqtt
 import logging
-logging.basicConfig(format='%(asctime)s %(message)s')
-
+logging.basicConfig(format='%(asctime)s %(message)s', filename='/var/log/particle/particle.log',level=logging.INFO)
 from influxwrite import model_values, store_data
 from settings import mqtt_credentials, config
 
@@ -24,12 +23,12 @@ def on_connect(client, userdata, flags, rc):
     :param rc:
     :return: nothing
     """
-    logging.info("Connected with result code", str(rc))
+    logging.info("Connected with result code " + str(rc))
 
     # Subscribing in on_connect() means that if we lose the connection and
     # reconnect then subscriptions will be renewed.
     client.subscribe(config.MQTT_TOPIC)
-    logging.info("subscribing to topic", config.MQTT_TOPIC)
+    logging.info("subscribing to topic " * str(config.MQTT_TOPIC))
 
 
 def on_message(client, userdata, msg):
@@ -47,10 +46,10 @@ def on_message(client, userdata, msg):
         print(msg.topic+" "+str(msg.payload))
         sensorData = model_values(msg)
         store_data(sensorData)
-        logging.info(msg.payload, 'successfully stored to influxdb')
+        logging.info(str(msg.payload) + 'successfully stored to influxdb')
     except Exception as e:
         print(e)
-        logging.error(msg.payload, 'error storing data to infoluxdb')
+        logging.error(str(msg.payload) + 'error storing data to influxdb')
     
 
 
