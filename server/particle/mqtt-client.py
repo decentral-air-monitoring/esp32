@@ -3,7 +3,7 @@
 
 import paho.mqtt.client as mqtt
 import logging
-logging.basicConfig(format='%(asctime)s %(message)s', filename='/var/log/particle/particle.log',level=logging.INFO)
+logging.basicConfig(format='%(asctime)s %(levelname)s %(message)s', filename='/var/log/particle/particle.log',level=logging.INFO)
 from influxwrite import model_values, store_data
 from settings import mqtt_credentials, config
 
