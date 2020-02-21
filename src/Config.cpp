@@ -15,6 +15,13 @@ boolean Config::getBool(const char * key) {
     return false;
 }
 
+int Config::getInt(const char * key) {
+    if(this->itemExists(key)) {
+        return this->preferences.getInt(key, false);
+    };
+    return false;
+}
+
 String Config::getString(const char * key) {
     if(this->itemExists(key)) {
         return this->preferences.getString(key, "");

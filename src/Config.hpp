@@ -22,6 +22,7 @@ class Config{
         void init();
         boolean getBool(const char * key);
         String getString(const char * key);
+        int getInt(const char * key);
         const config_item keys[2] = {
             {"CONFIGURED", CONFIG_TYPE::BOOL },
             {"AP_NAME", CONFIG_TYPE::STRING }
