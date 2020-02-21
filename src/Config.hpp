@@ -5,6 +5,9 @@
 
 #include <Preferences.h>
 
+#define KEY_LENGTH 20
+#define VALUE_LENGTH 40
+
 enum class CONFIG_TYPE {
     INT,
     BOOL,
@@ -12,8 +15,13 @@ enum class CONFIG_TYPE {
 };
 
 struct config_item {
-  char key[20];
+  char key[KEY_LENGTH];
   CONFIG_TYPE type;
+  union default_value {
+    boolean b;
+    int i;
+    char s[VALUE_LENGTH];
+  } def;
 };
 
 class Config{
@@ -22,13 +30,18 @@ class Config{
         void init();
         boolean getBool(const char * key);
         String getString(const char * key);
-        const config_item keys[2] = {
-            {"CONFIGURED", CONFIG_TYPE::BOOL },
-            {"AP_NAME", CONFIG_TYPE::STRING }
+        int getInt(const char * key);
+        const config_item keys[3] = {
+            {"CONFIGURED", CONFIG_TYPE::BOOL, {.b = false }},
+            {"CONFIG_AP_NAME", CONFIG_TYPE::STRING, {.s = "Particle-Config"}},
+            {"READ_INTERVAL", CONFIG_TYPE::INT, {.i = 60}}
         };
     private:
         Preferences preferences;
         boolean itemExists(const char * item);
+        boolean itemExists(const char * item, char *d);
+        boolean itemExists(const char * item, int * d);
+        boolean itemExists(const char * item, boolean * d);
 };
 
 #endif

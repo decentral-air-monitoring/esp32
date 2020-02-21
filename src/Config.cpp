@@ -9,15 +9,25 @@ void Config::init() {
 }
 
 boolean Config::getBool(const char * key) {
-    if(this->itemExists(key)) {
-        return this->preferences.getBool(key, false);
+    boolean d;
+    if(this->itemExists(key, &d)) {
+        return this->preferences.getBool(key, d);
+    };
+    return false;
+}
+
+int Config::getInt(const char * key) {
+    int d;
+    if(this->itemExists(key, &d)) {
+        return this->preferences.getInt(key, d);
     };
     return false;
 }
 
 String Config::getString(const char * key) {
-    if(this->itemExists(key)) {
-        return this->preferences.getString(key, "");
+    char d[VALUE_LENGTH];
+    if(this->itemExists(key, d)) {
+        return this->preferences.getString(key, d);
     };
     return "false";
 }
@@ -25,6 +35,33 @@ String Config::getString(const char * key) {
 boolean Config::itemExists(const char * item) {
     for(int i=0;i<sizeof(this->keys);i++) {
         if(!strcmp(item,keys[i].key)) {
+            return true;
+        }
+    }
+    return false;
+}
+boolean Config::itemExists(const char * item, char *d) {
+    for(int i=0;i<sizeof(this->keys);i++) {
+        if(!strcmp(item,keys[i].key)) {
+            strcpy(d, keys[i].def.s);
+            return true;
+        }
+    }
+    return false;
+}
+boolean Config::itemExists(const char * item, int * d) {
+    for(int i=0;i<sizeof(this->keys);i++) {
+        if(!strcmp(item,keys[i].key)) {
+            *d = keys[i].def.i;
+            return true;
+        }
+    }
+    return false;
+}
+boolean Config::itemExists(const char * item, boolean * d) {
+    for(int i=0;i<sizeof(this->keys);i++) {
+        if(!strcmp(item,keys[i].key)) {
+            *d = keys[i].def.b;
             return true;
         }
     }

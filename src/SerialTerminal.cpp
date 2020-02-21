@@ -24,7 +24,7 @@ void SerialTerminal::printConfiguration() {
                 Serial.print(configuration.getBool(configuration.keys[i].key));
             break;
             case CONFIG_TYPE::INT:
-                // Serial.print(configuration.getInt(configuration.keys[i].key));
+                Serial.print(configuration.getInt(configuration.keys[i].key));
             break;
             case CONFIG_TYPE::STRING:
                 Serial.print(configuration.getString(configuration.keys[i].key));
