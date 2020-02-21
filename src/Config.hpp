@@ -22,11 +22,11 @@ class Config{
         void init();
         boolean getBool(const char * key);
         String getString(const char * key);
-    private:
         const config_item keys[2] = {
             {"CONFIGURED", CONFIG_TYPE::BOOL },
             {"AP_NAME", CONFIG_TYPE::STRING }
         };
+    private:
         Preferences preferences;
         boolean itemExists(const char * item);
 };
