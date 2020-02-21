@@ -11,12 +11,14 @@ AirQualityWifi air_wifi;
 Display display;
 ConfigMode config_mode;
 Config configuration;
+SerialTerminal terminal;
 
 void setup() {
   Serial.begin(115200);
   // Setup Configuration
   configuration.init();
   Heltec.begin(true /*DisplayEnable Enable*/, false /*LoRa Disable*/, true /*Serial Enable*/);
+  terminal.init();
   // Check Mode
   if(configuration.getBool("configured")) {
     // Start normal operation
@@ -48,4 +50,5 @@ void loop() {
   if(op_mode == config) {
     config_mode.handle();
   }
+  terminal.handle();
 }
