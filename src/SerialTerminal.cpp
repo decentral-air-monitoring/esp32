@@ -39,7 +39,14 @@ void SerialTerminal::handle() {
         // Check for free buffer
         if(this->serialBufferPointer<SERIAL_BUF_LENGTH-1) {
             char temp = (char) Serial.read();
+            Serial.print(temp);
             if(temp == '\r') return;
+            if(temp == 0x08) {
+                if(this->serialBufferPointer>0) {
+                    this->serialBufferPointer--;
+                }
+                return;
+            }
             this->serialBuffer[this->serialBufferPointer] = temp;
             // Check for newline
             if(this->serialBuffer[this->serialBufferPointer]=='\n') {
@@ -62,7 +69,6 @@ void SerialTerminal::receive() {
     char key[20] = "";
     char value[20] = "";
     char dummy[1];
-    Serial.println(this->serialBuffer);
     if(!strcmp(this->serialBuffer, "PRINT")) {
         this->printConfiguration();
         return;
