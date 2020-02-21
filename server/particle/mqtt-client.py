@@ -3,6 +3,8 @@
 
 import paho.mqtt.client as mqtt
 import logging
+logging.basicConfig(format='%(asctime)s %(message)s')
+
 from influxwrite import model_values, store_data
 from settings import mqtt_credentials, config
 

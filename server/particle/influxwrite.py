@@ -1,6 +1,9 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+
 from influxdb import InfluxDBClient
 import logging
-from settings import mqtt_credentials, influx_credentials, config
+from settings import influx_credentials, config
 
 ###############################################################################
 # InfluxDB
