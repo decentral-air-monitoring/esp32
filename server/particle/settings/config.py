@@ -4,7 +4,7 @@ MQTT_HOST = "particle.nodelove.eu"
 MQTT_PORT = 8883
 MQTT_KEEPALIVE = 60
 # sepcify the topic to subscribe to
-MQTT_TOPIC = "test/#"
+MQTT_TOPIC = "particle"
 
 
 ####
