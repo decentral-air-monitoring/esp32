@@ -1,2 +1,3 @@
 influxdb
 paho-mqtt
+logging
