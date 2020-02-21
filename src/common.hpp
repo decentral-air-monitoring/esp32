@@ -8,6 +8,7 @@
 #include "AirQualityWiFi.hpp"
 #include "Display.hpp"
 #include "ConfigMode.hpp"
+#include "SerialTerminal.hpp"
 
 
 enum OPERATION_MODE {config, normal};
