@@ -10,8 +10,8 @@ OPERATION_MODE op_mode;
 AirQualityWifi air_wifi;
 Display display;
 ConfigMode config_mode;
-Config configuration;
 SerialTerminal terminal;
+Config configuration;
 
 void setup() {
   Serial.begin(115200);

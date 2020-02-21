@@ -16,6 +16,22 @@ void SerialTerminal::printHelp() {
 
 void SerialTerminal::printConfiguration() {
     Serial.println("Current Configuration:");
+    for(int i=0;i<sizeof(configuration.keys)/sizeof(config_item);i++) {
+        Serial.print(configuration.keys[i].key);
+        Serial.print("=");
+        switch(configuration.keys[i].type) {
+            case CONFIG_TYPE::BOOL:
+                Serial.print(configuration.getBool(configuration.keys[i].key));
+            break;
+            case CONFIG_TYPE::INT:
+                // Serial.print(configuration.getInt(configuration.keys[i].key));
+            break;
+            case CONFIG_TYPE::STRING:
+                Serial.print(configuration.getString(configuration.keys[i].key));
+            break;
+        }
+        Serial.println();
+    }
 }
 
 void SerialTerminal::handle() {

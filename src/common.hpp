@@ -1,6 +1,8 @@
 #ifndef COMMON_HPP
 #define COMMON_HPP
 
+class Config;
+
 #include <Arduino.h>
 #include <string>
 #include "heltec.h"
@@ -13,5 +15,7 @@
 
 enum OPERATION_MODE {config, normal};
 extern OPERATION_MODE op_mode;
+
+extern Config configuration;
 
 #endif
