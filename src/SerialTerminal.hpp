@@ -11,9 +11,11 @@ class SerialTerminal {
         void init();
         void handle();
         void printHelp();
+        void printConfiguration();
     private:
         void receive();
         char serialBuffer[SERIAL_BUF_LENGTH];
+        uint8_t serialBufferPointer = 0;
 };
 
 #endif
