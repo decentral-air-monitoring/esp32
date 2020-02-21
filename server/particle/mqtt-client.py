@@ -1,4 +1,8 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+
 import paho.mqtt.client as mqtt
+import logging
 from influxwrite import model_values, store_data
 from settings import mqtt_credentials, config
 
@@ -18,11 +22,12 @@ def on_connect(client, userdata, flags, rc):
     :param rc:
     :return: nothing
     """
-    print("Connected with result code "+str(rc))
+    logging.info("Connected with result code", str(rc))
 
     # Subscribing in on_connect() means that if we lose the connection and
     # reconnect then subscriptions will be renewed.
     client.subscribe(config.MQTT_TOPIC)
+    logging.info("subscribing to topic", config.MQTT_TOPIC)
 
 
 def on_message(client, userdata, msg):
@@ -35,12 +40,15 @@ def on_message(client, userdata, msg):
     """
     global model_values
     global store_data
+    global logging
     try:
         print(msg.topic+" "+str(msg.payload))
         sensorData = model_values(msg)
         store_data(sensorData)
+        logging.info(msg.payload, 'successfully stored to influxdb')
     except Exception as e:
         print(e)
+        logging.error(msg.payload, 'error storing data to infoluxdb')
     
 
 
