@@ -77,11 +77,8 @@ void SerialTerminal::receive() {
         this->printHelp();
         return;
     }
-    // sscanf(this->serialBuffer,"%s%[=]%s",key,dummy,value);
-    /*if(preferences.putString(key,value)) { // ToDo: Don't use preferences directly, but use an interface to a config class
-        Serial.printf("Set %s to %s\n", key, value);
-    } else {
-        Serial.println("Error setting preferences!");
-    }*/
+    if(sscanf(this->serialBuffer,"%s%[=]%s",key,dummy,value)==3) {
+        // atoi()
+    }
     Serial.println("Unrecognized Command. '?' for help.");
 }
