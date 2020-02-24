@@ -13,6 +13,16 @@ ConfigMode config_mode;
 SerialTerminal terminal;
 Config configuration;
 
+WiFiClient espClient;
+PubSubClient client(espClient);
+
+#define MQTT_LENGTH 20
+// ToDo: Cleanup/Refactor in class
+char mqttServer[MQTT_LENGTH] = "";
+int mqttPort = 0;
+char mqttUser[MQTT_LENGTH] = "";
+char mqttPassword[MQTT_LENGTH] = "";
+
 void setup() {
   Serial.begin(115200);
   // Setup Configuration
@@ -33,6 +43,27 @@ void setup() {
   display.init();
   if(op_mode == config) {
     config_mode.init();
+  } else {
+    // MQTT test stuff
+    configuration.getString("MQTT_SERVER").toCharArray(mqttServer,MQTT_LENGTH);
+    configuration.getString("MQTT_USER").toCharArray(mqttUser,MQTT_LENGTH);
+    configuration.getString("MQTT_PASS").toCharArray(mqttPassword,MQTT_LENGTH);
+    mqttPort = configuration.getInt("MQTT_PORT");
+    client.setServer(mqttServer, mqttPort);
+    Serial.println("Connecting to MQTT...");
+ 
+    if (client.connect("ESP32Client", mqttUser, mqttPassword )) {
+ 
+      Serial.println("connected");
+      client.publish("esp/test", "Hello from ESP32");
+      
+    } else {
+ 
+      Serial.print("failed with state ");
+      Serial.print(client.state());
+      delay(2000);
+ 
+    }
   }
   /* 
 

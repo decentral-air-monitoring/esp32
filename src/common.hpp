@@ -11,6 +11,7 @@ class Config;
 #include "Display.hpp"
 #include "ConfigMode.hpp"
 #include "SerialTerminal.hpp"
+#include <PubSubClient.h>
 
 
 enum OPERATION_MODE {config, normal};
