@@ -32,6 +32,29 @@ String Config::getString(const char * key) {
     return "false";
 }
 
+boolean Config::setString(const char * key, const char * val) {
+    if(this->itemExists(key)) {
+        return this->preferences.putString(key, val);
+    };
+    return false;
+}
+
+boolean Config::setBool(const char * key, boolean val) {
+    if(this->itemExists(key)) {
+        return this->preferences.putBool(key, val);
+    };
+    return false;
+}
+
+CONFIG_TYPE Config::getType(const char * key) {
+    for(int i=0;i<sizeof(this->keys);i++) {
+        if(!strcmp(key,keys[i].key)) {
+            return keys[i].type;
+        }
+    }
+    return CONFIG_TYPE::FALSE;
+}
+
 boolean Config::itemExists(const char * item) {
     for(int i=0;i<sizeof(this->keys);i++) {
         if(!strcmp(item,keys[i].key)) {

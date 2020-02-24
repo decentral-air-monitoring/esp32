@@ -12,6 +12,7 @@ void SerialTerminal::printHelp() {
     Serial.println("'?' for this hint message");
     Serial.println("'PRINT' for the current configuration");
     Serial.println("\"key=value\" to set a new value");
+    Serial.println("'reboot' to restart the ESP");
 }
 
 void SerialTerminal::printConfiguration() {
@@ -29,6 +30,8 @@ void SerialTerminal::printConfiguration() {
             case CONFIG_TYPE::STRING:
                 Serial.print(configuration.getString(configuration.keys[i].key));
             break;
+            default:
+                return;
         }
         Serial.println();
     }
@@ -68,7 +71,6 @@ void SerialTerminal::handle() {
 void SerialTerminal::receive() {
     char key[20] = "";
     char value[20] = "";
-    char dummy[1];
     if(!strcmp(this->serialBuffer, "PRINT")) {
         this->printConfiguration();
         return;
@@ -77,8 +79,41 @@ void SerialTerminal::receive() {
         this->printHelp();
         return;
     }
-    if(sscanf(this->serialBuffer,"%s%[=]%s",key,dummy,value)==3) {
-        // atoi()
+    if(!strcmp(this->serialBuffer, "reboot")) {
+        ESP.restart();
+        return;
+    }
+    if(sscanf(this->serialBuffer,"%[^=]=%[^=]",key,value)==2) {
+        if(strlen(value) < 1) {
+            Serial.println("Error: No value given");
+            return;
+        }
+        switch(configuration.getType(key)) {
+            case CONFIG_TYPE::STRING:
+                configuration.setString(key,value);
+                Serial.printf("%s successfully updated!\n",key);
+            break;
+            case CONFIG_TYPE::BOOL:
+                if(!strcmp(value,"true")) {
+                    configuration.setBool(key,true);
+                    Serial.printf("%s successfully updated!\n",key);
+                } else if (!strcmp(value,"1")) {
+                    configuration.setBool(key,true);
+                    Serial.printf("%s successfully updated!\n",key);
+                } else if (!strcmp(value,"false")) {
+                    configuration.setBool(key,false);
+                    Serial.printf("%s successfully updated!\n",key);
+                } else if (!strcmp(value,"0")) {
+                    configuration.setBool(key,false);
+                    Serial.printf("%s successfully updated!\n",key);
+                } else {
+                    Serial.printf("Unable to recognize %s as Boolean\n",value);
+                }
+            break;
+            default:
+                Serial.printf("Set for %s not implemented or %s not existing!\n",key, key);
+        }
+        return;
     }
     Serial.println("Unrecognized Command. '?' for help.");
 }

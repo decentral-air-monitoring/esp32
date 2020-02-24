@@ -11,7 +11,8 @@
 enum class CONFIG_TYPE {
     INT,
     BOOL,
-    STRING
+    STRING,
+    FALSE // in case of an error
 };
 
 struct config_item {
@@ -31,6 +32,12 @@ class Config{
         boolean getBool(const char * key);
         String getString(const char * key);
         int getInt(const char * key);
+
+        boolean setString(const char * key, const char * val);
+        boolean setBool(const char * key, boolean val);
+
+        CONFIG_TYPE getType(const char * key);
+
         const config_item keys[9] = {
             {"CONFIGURED", CONFIG_TYPE::BOOL, {.b = false }},
             {"CONFIG_AP_NAME", CONFIG_TYPE::STRING, {.s = "Particle-Config"}},
