@@ -3,7 +3,7 @@
 
 #include "common.hpp"
 
-#define SERIAL_BUF_LENGTH 20
+#define SERIAL_BUF_LENGTH 40
 
 class SerialTerminal {
     public:
