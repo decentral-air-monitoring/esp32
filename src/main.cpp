@@ -20,7 +20,7 @@ void setup() {
   Heltec.begin(true /*DisplayEnable Enable*/, false /*LoRa Disable*/, true /*Serial Enable*/);
   terminal.init();
   // Check Mode
-  if(configuration.getBool("configured")) {
+  if(configuration.getBool("CONFIGURED")) {
     // Start normal operation
     Serial.println("operation mode");
     op_mode = normal;

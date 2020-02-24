@@ -11,10 +11,13 @@ void AirQualityWifi::init() {
             Serial.println("WiFi Config Mode");
         break;
         case normal:
-        // ToDo: Connect to preconfigured 
-            /*Serial.printf("Connect with %s\n",ssid);
+            char ssid[WIFI_LENGTH] = "";
+            char pass[WIFI_LENGTH] = "";
+            configuration.getString("STA_SSID").toCharArray(ssid,WIFI_LENGTH);
+            configuration.getString("STA_PASS").toCharArray(pass,WIFI_LENGTH);
+            Serial.printf("Connect with %s\n",ssid);
             WiFi.mode(WIFI_STA);
-            WiFi.begin(ssid);*/
+            WiFi.begin(ssid,pass);
         break;
     } 
 }

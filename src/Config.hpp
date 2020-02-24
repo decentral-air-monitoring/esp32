@@ -38,7 +38,7 @@ class Config{
 
         CONFIG_TYPE getType(const char * key);
 
-        const config_item keys[9] = {
+        const config_item keys[11] = {
             {"CONFIGURED", CONFIG_TYPE::BOOL, {.b = false }},
             {"CONFIG_AP_NAME", CONFIG_TYPE::STRING, {.s = "Particle-Config"}},
             {"READ_INTERVAL", CONFIG_TYPE::INT, {.i = 60}},
@@ -47,7 +47,9 @@ class Config{
             {"MQTT_TOPIC", CONFIG_TYPE::STRING, {.s = "particle"}},
             {"MQTT_USER", CONFIG_TYPE::STRING, {.s = "demosensor"}},
             {"MQTT_PASSWORD", CONFIG_TYPE::STRING, {.s = "demopass"}},
-            {"MQTT_TLS", CONFIG_TYPE::BOOL, {.b = true}}
+            {"MQTT_TLS", CONFIG_TYPE::BOOL, {.b = true}},
+            {"STA_SSID", CONFIG_TYPE::STRING, {.s = "demossid"}},
+            {"STA_PASS", CONFIG_TYPE::STRING, {.s = "demopass"}}
         };
     private:
         Preferences preferences;

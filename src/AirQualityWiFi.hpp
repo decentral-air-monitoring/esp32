@@ -6,6 +6,7 @@
 #include <WiFi.h>
 
 #define ConfigModeSSID "AirQualitySetup"
+#define WIFI_LENGTH 20
 
 class AirQualityWifi {
     public:
