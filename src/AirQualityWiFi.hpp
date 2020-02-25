@@ -4,6 +4,7 @@
 #include "common.hpp"
 
 #include <WiFi.h>
+#include <WiFiClientSecure.h>
 
 #define ConfigModeSSID "AirQualitySetup"
 #define WIFI_LENGTH 20

@@ -15,7 +15,7 @@ void AirQualityWifi::init() {
             char pass[WIFI_LENGTH] = "";
             configuration.getString("STA_SSID").toCharArray(ssid,WIFI_LENGTH);
             configuration.getString("STA_PASS").toCharArray(pass,WIFI_LENGTH);
-            Serial.printf("Connect with %s\n",ssid);
+            Serial.printf("Connecting with %s\n",ssid);
             WiFi.mode(WIFI_STA);
             WiFi.begin(ssid,pass);
         break;
