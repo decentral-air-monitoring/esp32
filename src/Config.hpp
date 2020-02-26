@@ -35,6 +35,7 @@ class Config{
 
         boolean setString(const char * key, const char * val);
         boolean setBool(const char * key, boolean val);
+        boolean setInt(const char * key, int val);
 
         CONFIG_TYPE getType(const char * key);
 

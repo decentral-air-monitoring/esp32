@@ -110,6 +110,14 @@ void SerialTerminal::receive() {
                     Serial.printf("Unable to recognize %s as Boolean\n",value);
                 }
             break;
+            case CONFIG_TYPE::INT:
+                int i;
+                if(sscanf(value,"%i",&i)==1) {
+                    configuration.setInt(key,i);
+                } else {
+                    Serial.println("Error: Invalid Integer");
+                }
+            break;
             default:
                 Serial.printf("Set for %s not implemented or %s not existing!\n",key, key);
         }

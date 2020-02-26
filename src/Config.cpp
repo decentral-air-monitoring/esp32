@@ -46,6 +46,13 @@ boolean Config::setBool(const char * key, boolean val) {
     return false;
 }
 
+boolean Config::setInt(const char * key, int val) {
+    if(this->itemExists(key)) {
+        return this->preferences.putInt(key, val);
+    };
+    return false;
+}
+
 CONFIG_TYPE Config::getType(const char * key) {
     for(int i=0;i<sizeof(this->keys);i++) {
         if(!strcmp(key,keys[i].key)) {
