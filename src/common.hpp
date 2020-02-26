@@ -5,6 +5,7 @@ class Config;
 
 #include <Arduino.h>
 #include <string>
+#include <time.h>
 #include "heltec.h"
 #include "Config.hpp"
 #include "AirQualityWiFi.hpp"
