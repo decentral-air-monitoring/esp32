@@ -38,7 +38,7 @@ class Config{
 
         CONFIG_TYPE getType(const char * key);
 
-        const config_item keys[12] = {
+        const config_item keys[13] = {
             {"CONFIGURED", CONFIG_TYPE::BOOL, {.b = false }},
             {"CONFIG_AP_NAME", CONFIG_TYPE::STRING, {.s = "Particle-Config"}},
             {"READ_INTERVAL", CONFIG_TYPE::INT, {.i = 10}},
@@ -50,7 +50,8 @@ class Config{
             {"MQTT_TLS", CONFIG_TYPE::BOOL, {.b = true}},
             {"MQTT_RECONNECT", CONFIG_TYPE::INT, {.i = 10}},
             {"STA_SSID", CONFIG_TYPE::STRING, {.s = "demossid"}},
-            {"STA_PASS", CONFIG_TYPE::STRING, {.s = "demopass"}}
+            {"STA_PASS", CONFIG_TYPE::STRING, {.s = "demopass"}},
+            {"WIFI_RECONNECT", CONFIG_TYPE::INT, {.i = 10}}
         };
     private:
         Preferences preferences;

@@ -58,6 +58,7 @@ void setup() {
 }
 
 void loop() {
+  air_wifi.handle();
   if(op_mode == config) {
     config_mode.handle();
   } else {
