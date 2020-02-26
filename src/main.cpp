@@ -12,22 +12,11 @@ Display display;
 ConfigMode config_mode;
 SerialTerminal terminal;
 Config configuration;
-
-PubSubClient client;
-WiFiClient espClient;
-WiFiClientSecure espClientSecure;
+MQTT mqtt;
 
 // Timing data
 unsigned long last_read = 0;
 unsigned long read_interval = 0;
-
-#define MQTT_LENGTH 25
-// ToDo: Cleanup/Refactor in class
-char mqttServer[MQTT_LENGTH] = "";
-int mqttPort = 0;
-char mqttUser[MQTT_LENGTH] = "";
-char mqttPassword[MQTT_LENGTH] = "";
-boolean mqttState = false;
 
 void setup() {
   Serial.begin(115200);
@@ -47,28 +36,14 @@ void setup() {
   }
   air_wifi.init();
   display.init();
-
+  
   // Readout Timing
   read_interval = configuration.getInt("READ_INTERVAL")*1000;
 
   if(op_mode == config) {
     config_mode.init();
   } else {
-    // MQTT test stuff
-    configuration.getString("MQTT_SERVER").toCharArray(mqttServer,MQTT_LENGTH);
-    configuration.getString("MQTT_USER").toCharArray(mqttUser,MQTT_LENGTH);
-    configuration.getString("MQTT_PASSWORD").toCharArray(mqttPassword,MQTT_LENGTH);
-    mqttPort = configuration.getInt("MQTT_PORT");
-    if(configuration.getBool("MQTT_TLS")) {
-      // MQTT with TLS
-      client.setClient(espClientSecure);
-      Serial.println("Start MQTT with TLS");
-    } else {
-      // No TLS
-      client.setClient(espClient);
-      Serial.println("Start MQTT without TLS");
-    }
-    client.setServer(mqttServer, mqttPort);
+    mqtt.init();
   }
   /* 
 
@@ -86,33 +61,14 @@ void loop() {
   if(op_mode == config) {
     config_mode.handle();
   } else {
-    // Try to connect to MQTT
-    if(WiFi.isConnected()) {
-      
-      if(!mqttState) {
-        // 
-        Serial.printf("Connecting to MQTT as user %s\n",mqttUser);
-        if (client.connect("ESP32Client",mqttUser,mqttPassword)) {
-          Serial.println("connected");
-          mqttState = true;
-                  
-        } else {
-  
-          Serial.print("failed with state ");
-          Serial.print(client.state());
-          mqttState = true; //Temp: Set to true to avoid blocking  
-        }
-      }
-    }
+    mqtt.handle();
     // Check if it's time for an readout
     if(millis() - last_read > read_interval) {
       last_read = millis();
       // ToDo: Call sensor.read()
       // ToDo: Call MQTT transmit
       // ToDo: Call LoRa transmit
-      if(client.connected()) {
-        client.publish("particle", "42,42,42,42,42,42,42,42,42");
-      }
+      mqtt.send();
     }
   }
   terminal.handle();
