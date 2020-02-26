@@ -14,6 +14,9 @@ SerialTerminal terminal;
 Config configuration;
 
 PubSubClient client;
+WiFiClient espClient;
+WiFiClientSecure espClientSecure;
+
 
 #define MQTT_LENGTH 25
 // ToDo: Cleanup/Refactor in class
@@ -47,22 +50,18 @@ void setup() {
     // MQTT test stuff
     configuration.getString("MQTT_SERVER").toCharArray(mqttServer,MQTT_LENGTH);
     configuration.getString("MQTT_USER").toCharArray(mqttUser,MQTT_LENGTH);
-    configuration.getString("MQTT_PASS").toCharArray(mqttPassword,MQTT_LENGTH);
+    configuration.getString("MQTT_PASSWORD").toCharArray(mqttPassword,MQTT_LENGTH);
     mqttPort = configuration.getInt("MQTT_PORT");
     if(configuration.getBool("MQTT_TLS")) {
       // MQTT with TLS
-      WiFiClientSecure espClientSecure;
       client.setClient(espClientSecure);
       Serial.println("Start MQTT with TLS");
     } else {
       // No TLS
-      WiFiClient espClient;
       client.setClient(espClient);
       Serial.println("Start MQTT without TLS");
     }
     client.setServer(mqttServer, mqttPort);
-    Serial.println(mqttServer);
-    Serial.println(mqttPort);
   }
   /* 
 
@@ -85,19 +84,17 @@ void loop() {
       
       if(!mqttState) {
         // 
-        Serial.println("Connecting to MQTT...");
-        //if (client.connect("ESP32Client")) {
-        if(false) {
+        Serial.printf("Connecting to MQTT as user %s\n",mqttUser);
+        if (client.connect("ESP32Client",mqttUser,mqttPassword)) {
           Serial.println("connected");
           mqttState = true;
-      //    client.publish("esp/test", "Hello from ESP32");
+          client.publish("particle", "42,42,42,42,42,42,42,42,42");
         
         } else {
   
           Serial.print("failed with state ");
           Serial.print(client.state());
-          delay(2000);
-  
+          mqttState = true; //Temp: Set to true to avoid blocking  
         }
       }
     }
