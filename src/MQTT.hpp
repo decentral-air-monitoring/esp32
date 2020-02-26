@@ -21,6 +21,9 @@ class MQTT {
         int mqttPort = 0;
         char mqttUser[MQTT_LENGTH] = "";
         char mqttPassword[MQTT_LENGTH] = "";
+        unsigned long reconnectInterval = 0;
+        unsigned long reconnectLastTry = 0;
+        boolean connectFirstTry = true;
 };
 
 #endif

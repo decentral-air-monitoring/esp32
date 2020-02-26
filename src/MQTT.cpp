@@ -9,6 +9,7 @@ void MQTT::init() {
     configuration.getString("MQTT_USER").toCharArray(this->mqttUser,MQTT_LENGTH);
     configuration.getString("MQTT_PASSWORD").toCharArray(this->mqttPassword,MQTT_LENGTH);
     this->mqttPort = configuration.getInt("MQTT_PORT");
+    this->reconnectInterval = configuration.getInt("MQTT_RECONNECT")*1000;
     if(configuration.getBool("MQTT_TLS")) {
       // MQTT with TLS
       this->client.setClient(this->espClientSecure);
@@ -24,13 +25,16 @@ void MQTT::init() {
 void MQTT::handle() {
     // Try to connect to MQTT if unconnected
     if(WiFi.isConnected() && !this->client.connected()) {
-    
-        Serial.printf("MQTT: Connect to %s as user %s\n", this->mqttServer, this->mqttUser);
-        if (this->client.connect("ESP32Client",this->mqttUser,this->mqttPassword)) {
-          Serial.println("MQTT: connected");                  
-        } else {
-          Serial.print("MQTT: Connection failed failed with state ");
-          Serial.println(this->client.state());
+        if((millis() - this->reconnectLastTry > this->reconnectInterval) || this->connectFirstTry) {
+            this->connectFirstTry = false;
+            this->reconnectLastTry = millis();
+            Serial.printf("MQTT: Connecting to %s as user %s\n", this->mqttServer, this->mqttUser);
+            if (this->client.connect("ESP32Client",this->mqttUser,this->mqttPassword)) {
+                Serial.println("MQTT: connected");                  
+            } else {
+                Serial.print("MQTT: Connection failed failed with state ");
+                Serial.println(this->client.state());
+            }
         }
     }
 }
