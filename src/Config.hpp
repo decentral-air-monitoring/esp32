@@ -41,7 +41,7 @@ class Config{
         const config_item keys[11] = {
             {"CONFIGURED", CONFIG_TYPE::BOOL, {.b = false }},
             {"CONFIG_AP_NAME", CONFIG_TYPE::STRING, {.s = "Particle-Config"}},
-            {"READ_INTERVAL", CONFIG_TYPE::INT, {.i = 60}},
+            {"READ_INTERVAL", CONFIG_TYPE::INT, {.i = 10}},
             {"MQTT_PORT", CONFIG_TYPE::INT, {.i = 8883}},
             {"MQTT_SERVER", CONFIG_TYPE::STRING, {.s = "particle.nodelove.eu"}},
             {"MQTT_TOPIC", CONFIG_TYPE::STRING, {.s = "particle"}},

@@ -17,6 +17,9 @@ PubSubClient client;
 WiFiClient espClient;
 WiFiClientSecure espClientSecure;
 
+// Timing data
+unsigned long last_read = 0;
+unsigned long read_interval = 0;
 
 #define MQTT_LENGTH 25
 // ToDo: Cleanup/Refactor in class
@@ -44,6 +47,10 @@ void setup() {
   }
   air_wifi.init();
   display.init();
+
+  // Readout Timing
+  read_interval = configuration.getInt("READ_INTERVAL")*1000;
+
   if(op_mode == config) {
     config_mode.init();
   } else {
@@ -88,14 +95,23 @@ void loop() {
         if (client.connect("ESP32Client",mqttUser,mqttPassword)) {
           Serial.println("connected");
           mqttState = true;
-          client.publish("particle", "42,42,42,42,42,42,42,42,42");
-        
+                  
         } else {
   
           Serial.print("failed with state ");
           Serial.print(client.state());
           mqttState = true; //Temp: Set to true to avoid blocking  
         }
+      }
+    }
+    // Check if it's time for an readout
+    if(millis() - last_read > read_interval) {
+      last_read = millis();
+      // ToDo: Call sensor.read()
+      // ToDo: Call MQTT transmit
+      // ToDo: Call LoRa transmit
+      if(client.connected()) {
+        client.publish("particle", "42,42,42,42,42,42,42,42,42");
       }
     }
   }
