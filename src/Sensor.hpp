@@ -4,10 +4,10 @@
 #include "common.hpp"
 
 struct sensorData{
-    float pm1;
-    float pm25;
-    float pm8;
-    float pm10;
+    unsigned int pm1;
+    unsigned int pm25;
+    unsigned int pm8;
+    unsigned int pm10;
     time_t time;
 };
 class Sensor
