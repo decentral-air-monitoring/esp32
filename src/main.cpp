@@ -18,13 +18,13 @@ MQTT mqtt;
 unsigned long last_read = 0;
 unsigned long read_interval = 0;
 
-DemoSensor sensor;
+Sds_011 sensor;
 
 void setup() {
   Serial.begin(115200);
   // Setup Configuration
   configuration.init();
-  sensor = DemoSensor();
+  sensor = Sds_011();
   Heltec.begin(true /*DisplayEnable Enable*/, false /*LoRa Disable*/, true /*Serial Enable*/);
   terminal.init();
   // Check Mode

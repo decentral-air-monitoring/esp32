@@ -1,10 +1,9 @@
 #include "Sds_011.hpp"
-HardwareSerial port(2);
 
 Sds_011::Sds_011() : Sensor()
 {
-    // port = new HardwareSerial(2);
-    //my_sds.begin(&port);
+    this->serialPort.begin(9600,SERIAL_8N1);
+    my_sds.begin(&this->serialPort);
 }
 
 Sds_011::~Sds_011()
