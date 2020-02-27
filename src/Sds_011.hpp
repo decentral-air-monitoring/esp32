@@ -2,7 +2,6 @@
 #define SDS_011_HPP
 #include "common.hpp"
 #include "Sensor.hpp"
-#include <SoftwareSerial.h>
 #include <SDS011.h>
 
 #define RX1 16
