@@ -7,12 +7,15 @@
 
 #define MQTT_LENGTH 25
 
+struct sensorData;
+
 class MQTT {
     public:
         MQTT();
         void init();
         void handle();
         void send();
+        void send(sensorData d);
     private:
         PubSubClient client;
         WiFiClient espClient;

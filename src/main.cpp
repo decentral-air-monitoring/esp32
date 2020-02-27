@@ -73,10 +73,9 @@ void loop() {
       // ToDo: Call sensor.read()
       // ToDo: Call MQTT transmit
       // ToDo: Call LoRa transmit
-      mqtt.send();
+      sensorData data = sensor.getData();
+      mqtt.send(data);
     }
-    sensorData data = sensor.getData();
-    Serial.println(data.pm25);
   }
   terminal.handle();
 }

@@ -12,8 +12,8 @@ class Config;
 #include "Display.hpp"
 #include "ConfigMode.hpp"
 #include "SerialTerminal.hpp"
-#include "MQTT.hpp"
 #include "Sensor.hpp"
+#include "MQTT.hpp"
 
 enum OPERATION_MODE {config, normal};
 extern OPERATION_MODE op_mode;
