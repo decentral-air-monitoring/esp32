@@ -3,6 +3,7 @@
 
 DemoSensor::DemoSensor() : Sensor()
 {
+    
 }
 
 DemoSensor::~DemoSensor()
@@ -34,4 +35,5 @@ float DemoSensor::randomFloat(float min, float max)
         float range = max - min;  
         return (random*range) + min;
     }
+    return 0;
 }

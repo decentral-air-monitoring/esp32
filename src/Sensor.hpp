@@ -10,8 +10,6 @@ struct sensorData{
     float pm10;
     time_t time;
 };
-
-
 class Sensor
 {
 public:
@@ -20,4 +18,7 @@ public:
     virtual void handle() = 0;
     virtual sensorData getData() = 0;
 };
+
+#include "DemoSensor.hpp"
+#include "Sds_011.hpp"
 #endif
