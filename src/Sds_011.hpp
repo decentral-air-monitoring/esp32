@@ -8,7 +8,7 @@
 #define TX2 17
 
 #ifdef ESP32
-//HardwareSerial port(2);
+extern HardwareSerial port;
 #endif
 
 class Sds_011 : public Sensor
