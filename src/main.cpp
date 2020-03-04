@@ -24,7 +24,13 @@ void setup() {
   Serial.begin(115200);
   // Setup Configuration
   configuration.init();
-  sensor = new Sds_011();
+  switch(configuration.getInt("SENSOR_TYPE")) {
+    case 1:
+      sensor = new Sds_011();
+    default:
+      sensor = new DemoSensor();
+  }
+  // sensor->init(); ToDo: Actively initialize the sensor if necessary
   Heltec.begin(true /*DisplayEnable Enable*/, false /*LoRa Disable*/, true /*Serial Enable*/);
   terminal.init();
   // Check Mode
