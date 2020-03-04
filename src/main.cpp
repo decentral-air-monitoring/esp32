@@ -18,13 +18,13 @@ MQTT mqtt;
 unsigned long last_read = 0;
 unsigned long read_interval = 0;
 
-Sds_011 sensor;
+Sensor* sensor;
 
 void setup() {
   Serial.begin(115200);
   // Setup Configuration
   configuration.init();
-  sensor = Sds_011();
+  sensor = new Sds_011();
   Heltec.begin(true /*DisplayEnable Enable*/, false /*LoRa Disable*/, true /*Serial Enable*/);
   terminal.init();
   // Check Mode
@@ -66,14 +66,14 @@ void loop() {
     config_mode.handle();
   } else {
     mqtt.handle();
-    sensor.handle();
+    sensor->handle();
     // Check if it's time for an readout
     if(millis() - last_read > read_interval) {
       last_read = millis();
       // ToDo: Call sensor.read()
       // ToDo: Call MQTT transmit
       // ToDo: Call LoRa transmit
-      sensorData data = sensor.getData();
+      sensorData data = sensor->getData();
       mqtt.send(data);
     }
   }
