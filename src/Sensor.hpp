@@ -21,4 +21,5 @@ public:
 
 #include "DemoSensor.hpp"
 #include "Sds_011.hpp"
+#include "DefaultSensor.hpp"
 #endif
