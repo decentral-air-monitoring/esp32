@@ -22,4 +22,5 @@ public:
 #include "sensor/DemoSensor.hpp"
 #include "sensor/Sds_011.hpp"
 #include "sensor/DefaultSensor.hpp"
+#include "sensor/HPMA115C0.hpp"
 #endif
