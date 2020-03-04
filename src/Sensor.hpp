@@ -19,7 +19,7 @@ public:
     virtual sensorData getData() = 0;
 };
 
-#include "DemoSensor.hpp"
-#include "Sds_011.hpp"
-#include "DefaultSensor.hpp"
+#include "sensor/DemoSensor.hpp"
+#include "sensor/Sds_011.hpp"
+#include "sensor/DefaultSensor.hpp"
 #endif
