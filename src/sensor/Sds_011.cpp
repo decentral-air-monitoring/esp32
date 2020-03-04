@@ -2,8 +2,13 @@
 
 Sds_011::Sds_011() : Sensor()
 {
-    this->serialPort.begin(9600,SERIAL_8N1);
-    my_sds.begin(&this->serialPort);
+    this->data.pm10 = -1;
+    this->data.pm8 = -1;
+    this->data.pm25 = -1;
+    this->data.pm1 = -1;
+    
+    //this->serialPort.begin(9600,SERIAL_8N1,RX2,TX2);
+    this->my_sds.begin(&this->serialPort,RX2,TX2);
 }
 
 Sds_011::~Sds_011()
@@ -12,18 +17,21 @@ Sds_011::~Sds_011()
 
 void Sds_011::handle()
 {
-    /*time_t timer;
-    int err;
-    float p10, p25;
-    my_sds.wakeup();
 
-    err = my_sds.read(&p25, &p10);
+    boolean err;
+    float p10 = -1;
+    float p25 = -1;
+    //this->my_sds.wakeup();
+    
+    err = this->my_sds.read(&p25, &p10);
 
     if (!err){
-          data.pm25 = p25;
-          data.pm10 = p10;
-          data.time = time(&timer);
-    }*/
+        this->data.pm25 = p25;
+        this->data.pm10 = p10;
+    }else{
+        Serial.println("error");
+        Serial.println(p25);
+    }
 }
 
 sensorData Sds_011::getData()

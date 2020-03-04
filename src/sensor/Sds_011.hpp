@@ -2,14 +2,11 @@
 #define SDS_011_HPP
 #include "common.hpp"
 #include "Sensor.hpp"
-#include <SDS011.h>
+#include "SDS011.h"
 
-#define RX1 16
-#define TX2 17
+#define RX2 22 //grün
+#define TX2 23 //blau
 
-#ifdef ESP32
-//extern HardwareSerial port;
-#endif
 
 class Sds_011 : public Sensor
 {
