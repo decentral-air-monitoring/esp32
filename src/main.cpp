@@ -25,6 +25,9 @@ void setup() {
   // Setup Configuration
   configuration.init();
   switch(configuration.getInt("SENSOR_TYPE")) {
+    case 4:
+      sensor = new SPS30();
+      break;
     case 3:
       sensor = new HPMA115C0();
       break;

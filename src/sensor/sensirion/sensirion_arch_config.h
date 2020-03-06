@@ -29,45 +29,68 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef SPS30_HPP
-#define SPS30_HPP
-#include "common.hpp"
-#include "Sensor.hpp"
-#include "sensirion/sensirion_arch_config.h"
+#ifndef SENSIRION_ARCH_CONFIG_H
+#define SENSIRION_ARCH_CONFIG_H
 
-#define SPS30_MAX_SERIAL_LEN 32
-#define SPS30_ERR_NOT_ENOUGH_DATA (-1)
-#define SPS30_ERR_STATE_MASK (0x100)
-#define SPS30_IS_ERR_STATE(err_code) (((err_code) | 0xff) == 0x1ff)
-#define SPS30_GET_ERR_STATE(err_code) ((err_code)&0xff)
+/**
+ * If your platform does not provide the library stdint.h you have to
+ * define the integral types yourself (see below).
+ */
+#include <stdint.h>
 
-#define RX2 22 //grün
-#define TX2 23 //blau
+#ifdef __cplusplus
+extern "C" {
+#endif
 
-struct receive_data {
-    float32_t mass_pm1;
-    float32_t mass_pm2_5;
-    float32_t mass_pm4;
-    float32_t mass_pm10;
-    float32_t count_pm1;
-    float32_t count_pm2_5;
-    float32_t count_pm4;
-    float32_t count_pm10;
-};
+/**
+ * Typedef section for types commonly defined in <stdint.h>
+ * If your system does not provide stdint headers, please define them
+ * accordingly.
+ */
+/* typedef unsigned long long int uint64_t;
+ * typedef long long int int64_t;
+ * typedef long int32_t;
+ * typedef unsigned long uint32_t;
+ * typedef short int16_t;
+ * typedef unsigned short uint16_t;
+ * typedef char int8_t;
+ * typedef unsigned char uint8_t; */
 
-class SPS30:public Sensor
-{
-private:
-    sensorData data;
-    struct receive_data measurement;
-    void setup();
-    int startMeasurement();
-    int stopMeasurement();
-    int readMeasurement();
-    
-public:
-    SPS30();
-    ~SPS30();
-    void handle();
-    sensorData getData();
+/* Types not typically provided by <stdint.h> */
+typedef float float32_t;
+
+/**
+ * Define the endianness of your architecture:
+ * 0: little endian, 1: big endian
+ * Use the following code to determine if unsure:
+ * ```c
+ * #include <stdio.h>
+ *
+ * int is_big_endian(void) {
+ *     union {
+ *         unsigned int u;
+ *         char c[sizeof(unsigned int)];
+ *     } e = { 0 };
+ *     e.c[0] = 1;
+ *
+ *     return (e.i != 1);
+ * }
+ *
+ * int main(void) {
+ *     printf("Use #define SENSIRION_BIG_ENDIAN %d\n", is_big_endian());
+ *
+ *     return 0;
+ * }
+ * ```
+ */
+#define SENSIRION_BIG_ENDIAN 0
+
+#ifndef NULL
+#define NULL ((void *)0)
+#endif
+
+#ifdef __cplusplus
 }
+#endif
+
+#endif /* SENSIRION_ARCH_CONFIG_H */
