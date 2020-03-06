@@ -1,7 +1,5 @@
 #include "Sds_011.hpp"
 
-HardwareSerial SerialSensor(2);
-
 Sds_011::Sds_011() : Sensor()
 {
     this->data.pm10 = -1;
@@ -9,8 +7,6 @@ Sds_011::Sds_011() : Sensor()
     this->data.pm25 = -1;
     this->data.pm1 = -1;
     
-    //SerialSensor.begin(9600,SERIAL_8N1,RX2,TX2);
-    //SerialSensor.println("Hello Marvin!!!!");
     this->my_sds.begin(&SerialSensor,RX2,TX2);
     this->my_sds.wakeup();
 }

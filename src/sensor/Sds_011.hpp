@@ -4,10 +4,6 @@
 #include "Sensor.hpp"
 #include "SDS011.h"
 
-#define TX2 21 //grün
-#define RX2 22 //blau
-
-
 class Sds_011 : public Sensor
 {
 private:

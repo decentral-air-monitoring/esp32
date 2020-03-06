@@ -13,6 +13,7 @@ ConfigMode config_mode;
 SerialTerminal terminal;
 Config configuration;
 MQTT mqtt;
+HardwareSerial SerialSensor(2);
 
 // Timing data
 unsigned long last_read = 0;

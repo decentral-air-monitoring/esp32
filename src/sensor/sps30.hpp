@@ -42,9 +42,6 @@
 #define SPS30_IS_ERR_STATE(err_code) (((err_code) | 0xff) == 0x1ff)
 #define SPS30_GET_ERR_STATE(err_code) ((err_code)&0xff)
 
-#define RX2 22 //grün
-#define TX2 23 //blau
-
 struct receive_data {
     float32_t mass_pm1;
     float32_t mass_pm2_5;

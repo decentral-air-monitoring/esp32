@@ -3,6 +3,9 @@
 
 class Config;
 
+#define TX2 21 //grün
+#define RX2 22 //blau
+
 #include <Arduino.h>
 #include <string>
 #include <time.h>
@@ -19,5 +22,5 @@ enum OPERATION_MODE {config, normal};
 extern OPERATION_MODE op_mode;
 
 extern Config configuration;
-
+extern HardwareSerial SerialSensor;
 #endif
