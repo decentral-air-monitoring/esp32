@@ -61,7 +61,7 @@ private:
     sensorData data;
     struct receive_data measurement;
     void setup();
-    int startMeasurement();
+    int startMeasurementInt();
     int stopMeasurement();
     int readMeasurement();
     
@@ -70,4 +70,7 @@ public:
     ~SPS30();
     void handle();
     sensorData getData();
-}
+    void startMeasurement();
+    boolean measurementStatus();
+};
+#endif

@@ -13,5 +13,7 @@ public:
     ~DefaultSensor();
     void handle();
     sensorData getData();
+    void startMeasurement();
+    boolean measurementStatus();
 };
 #endif

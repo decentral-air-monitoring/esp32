@@ -37,3 +37,10 @@ float DemoSensor::randomFloat(float min, float max)
     }
     return 0;
 }
+
+void DemoSensor::startMeasurement() {
+
+}
+boolean DemoSensor::measurementStatus() {
+    return true;
+}

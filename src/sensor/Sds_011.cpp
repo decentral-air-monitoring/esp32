@@ -38,3 +38,10 @@ sensorData Sds_011::getData()
 {
     return data;
 }
+
+void Sds_011::startMeasurement() {
+
+}
+boolean Sds_011::measurementStatus() {
+    return true;
+}

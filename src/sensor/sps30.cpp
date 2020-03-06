@@ -69,7 +69,7 @@ sensorData SPS30::getData()
 {
     SPS30 Measure;
 
-    if (Measure.startMeasurement() != 0) {
+    if (Measure.startMeasurementInt() != 0) {
         Serial.write("error starting measurement\n");
     }
     delay(10000);
@@ -79,13 +79,13 @@ sensorData SPS30::getData()
         data.pm1 = Measure.measurement.count_pm1;
         data.pm25 = Measure.measurement.count_pm2_5;
         data.pm4 = Measure.measurement.count_pm4;
-        data.pm10 = Measure.measurement.count_pm10
+        data.pm10 = Measure.measurement.count_pm10;
     }
     return data;
 }
 
 
-int SPS30::startMeasurement()
+int SPS30::startMeasurementInt()
 {
     struct sensirion_shdlc_rx_header header;
     uint8_t param_buf[] = SPS30_SUBCMD_MEASUREMENT_START;
@@ -156,4 +156,11 @@ int SPS30::readMeasurement()
         return SPS30_ERR_STATE(header.state);
 
     return 0;
+}
+
+void SPS30::startMeasurement() {
+
+}
+boolean SPS30::measurementStatus() {
+    return true;
 }

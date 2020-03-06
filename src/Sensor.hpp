@@ -17,10 +17,13 @@ public:
     ~Sensor();
     virtual void handle() = 0;
     virtual sensorData getData() = 0;
+    virtual void startMeasurement() = 0;
+    virtual boolean measurementStatus() = 0;
 };
 
 #include "sensor/DemoSensor.hpp"
 #include "sensor/Sds_011.hpp"
 #include "sensor/DefaultSensor.hpp"
 #include "sensor/HPMA115C0.hpp"
+#include "sensor/sps30.hpp"
 #endif

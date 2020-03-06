@@ -21,3 +21,10 @@ sensorData DefaultSensor::getData()
 {
     return data;
 }
+
+void DefaultSensor::startMeasurement() {
+
+}
+boolean DefaultSensor::measurementStatus() {
+    return true;
+}

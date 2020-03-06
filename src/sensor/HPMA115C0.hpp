@@ -3,9 +3,6 @@
 #include "common.hpp"
 #include "Sensor.hpp"
 
-#define RX1 16
-#define TX2 17
-
 #ifdef ESP32
 //extern HardwareSerial port;
 #endif
@@ -21,5 +18,7 @@ public:
     ~HPMA115C0();
     void handle();
     sensorData getData();
+    void startMeasurement();
+    boolean measurementStatus();
 };
 #endif

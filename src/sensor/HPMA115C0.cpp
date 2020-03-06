@@ -21,3 +21,10 @@ sensorData HPMA115C0::getData()
 {
     return data;
 }
+
+void HPMA115C0::startMeasurement() {
+
+}
+boolean HPMA115C0::measurementStatus() {
+    return true;
+}
