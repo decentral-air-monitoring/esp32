@@ -18,6 +18,9 @@ MQTT mqtt;
 unsigned long last_read = 0;
 unsigned long read_interval = 0;
 
+// Measurement state
+boolean measurement_running = false;
+
 Sensor* sensor;
 
 void setup() {
@@ -83,14 +86,31 @@ void loop() {
   } else {
     mqtt.handle();
     sensor->handle();
-    // Check if it's time for an readout
-    if(millis() - last_read > read_interval) {
-      last_read = millis();
-      // ToDo: Call sensor.read()
-      // ToDo: Call MQTT transmit
-      // ToDo: Call LoRa transmit
+    // If there is an measurement running and data available, send out data
+    if(measurement_running && sensor->measurementStatus()) {
+      measurement_running = false;
+      // Send measurement data
       sensorData data = sensor->getData();
       mqtt.send(data);
+    }
+    // Check if it's time for an new readout
+    if(millis() - last_read > read_interval) {
+      last_read = millis();
+      // Check if there is no measurement running
+      if(!measurement_running) {
+        // Start measurement
+        sensor->startMeasurement();
+        // Check if we have an immediate result
+        if(sensor->measurementStatus()) {
+          // Send measurement data
+          sensorData data = sensor->getData();
+          mqtt.send(data);
+        } else {
+          // set flag
+          measurement_running = true;
+        }
+      }
+      // ToDo: Call LoRa transmit
     }
   }
   terminal.handle();
