@@ -5,7 +5,7 @@ DefaultSensor::DefaultSensor() : Sensor()
 {
     data.pm1  = -1;
     data.pm25 = -1;
-    data.pm8  = -1;
+    data.pm4  = -1;
     data.pm10 = -1;
 }
 

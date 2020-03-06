@@ -3,7 +3,7 @@
 Sds_011::Sds_011() : Sensor()
 {
     this->data.pm10 = -1;
-    this->data.pm8 = -1;
+    this->data.pm4 = -1;
     this->data.pm25 = -1;
     this->data.pm1 = -1;
     

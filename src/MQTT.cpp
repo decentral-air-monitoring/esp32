@@ -49,7 +49,7 @@ void MQTT::send() {
 void MQTT::send(sensorData d) {
     if(this->client.connected()) {
         char msg[80];
-        sprintf(msg,"%i,42,%i,%i,%i,%i,42,42,42",configuration.getInt("STATION_ID"), d.pm1,d.pm25,d.pm8,d.pm10);
+        sprintf(msg,"%i,42,%i,%i,%i,%i,42,42,42",configuration.getInt("STATION_ID"), d.pm1,d.pm25,d.pm4,d.pm10);
         this->client.publish("particle", msg);
     }
 }

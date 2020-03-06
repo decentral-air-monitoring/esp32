@@ -6,7 +6,7 @@
 struct sensorData{
     unsigned int pm1;
     unsigned int pm25;
-    unsigned int pm8;
+    unsigned int pm4;
     unsigned int pm10;
     time_t time;
 };
