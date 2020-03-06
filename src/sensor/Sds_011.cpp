@@ -1,5 +1,7 @@
 #include "Sds_011.hpp"
 
+HardwareSerial SerialSensor(2);
+
 Sds_011::Sds_011() : Sensor()
 {
     this->data.pm10 = -1;
@@ -7,8 +9,10 @@ Sds_011::Sds_011() : Sensor()
     this->data.pm25 = -1;
     this->data.pm1 = -1;
     
-    //this->serialPort.begin(9600,SERIAL_8N1,RX2,TX2);
-    this->my_sds.begin(&this->serialPort,RX2,TX2);
+    //SerialSensor.begin(9600,SERIAL_8N1,RX2,TX2);
+    //SerialSensor.println("Hello Marvin!!!!");
+    this->my_sds.begin(&SerialSensor,RX2,TX2);
+    this->my_sds.wakeup();
 }
 
 Sds_011::~Sds_011()
@@ -21,7 +25,6 @@ void Sds_011::handle()
     boolean err;
     float p10 = -1;
     float p25 = -1;
-    //this->my_sds.wakeup();
     
     err = this->my_sds.read(&p25, &p10);
 
@@ -43,5 +46,5 @@ void Sds_011::startMeasurement() {
 
 }
 boolean Sds_011::measurementStatus() {
-    return true;
+    return false;
 }

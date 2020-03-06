@@ -4,15 +4,14 @@
 #include "Sensor.hpp"
 #include "SDS011.h"
 
-#define RX2 22 //grün
-#define TX2 23 //blau
+#define TX2 21 //grün
+#define RX2 22 //blau
 
 
 class Sds_011 : public Sensor
 {
 private:
     sensorData data;
-    HardwareSerial serialPort = HardwareSerial(2);
     SDS011 my_sds;
 public:
     Sds_011();
