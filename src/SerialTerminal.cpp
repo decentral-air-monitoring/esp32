@@ -109,6 +109,9 @@ void SerialTerminal::receive() {
                 } else {
                     Serial.printf("Unable to recognize %s as Boolean\n",value);
                 }
+                if(!strcmp(key,"CONFIGURED")) {
+                    ESP.restart();
+                }
             break;
             case CONFIG_TYPE::INT:
                 int i;
