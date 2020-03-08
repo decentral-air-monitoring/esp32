@@ -117,6 +117,7 @@ void SerialTerminal::receive() {
                 int i;
                 if(sscanf(value,"%i",&i)==1) {
                     configuration.setInt(key,i);
+                    Serial.printf("%s successfully updated!\n",key);
                 } else {
                     Serial.println("Error: Invalid Integer");
                 }
