@@ -85,7 +85,9 @@ int16_t sensirion_uart_close() {
  * Return:      Number of bytes sent or a negative error code
  */
 int16_t sensirion_uart_tx(uint16_t data_len, const uint8_t *data) {
-    return SerialSensor.write(data, data_len);
+    //TODO write untersuchen auf write
+    SerialSensor.write(data, data_len);
+    return 0;
 }
 
 /**
