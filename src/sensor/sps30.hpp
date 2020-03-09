@@ -33,7 +33,7 @@
 #define SPS30_HPP
 #include "common.hpp"
 #include "Sensor.hpp"
-#include "sensirion/sensirion_uart.h"
+#include "sensirion/sensirion_uart.hpp"
 #include "sensirion/sensirion_arch_config.h"
 
 #define SPS30_MAX_SERIAL_LEN 32

@@ -29,15 +29,22 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef SENSIRION_UART_H
-#define SENSIRION_UART_H
-
-
-#ifdef __cplusplus
-extern "C" {
-#endif
+#include "common.hpp"
+#include "sensirion_uart.hpp"
+#include "wiring_private.h"
 
 #include "sensirion_arch_config.h"
+
+#define TX2 21 //grün
+#define RX2 22 //blau
+
+/*
+ * INSTRUCTIONS
+ * ============
+ *
+ * Implement all functions where they are marked with TODO: implement
+ * Follow the function specification in the comments.
+ */
 
 /**
  * sensirion_uart_select_port() - select the UART port index to use
@@ -46,21 +53,31 @@ extern "C" {
  *
  * Return:      0 on success, an error code otherwise
  */
-int16_t sensirion_uart_select_port(uint8_t port);
+int16_t sensirion_uart_select_port(uint8_t port) {
+    return 0;
+}
 
 /**
  * sensirion_uart_open() - initialize UART
  *
  * Return:      0 on success, an error code otherwise
  */
-int16_t sensirion_uart_open();
+int16_t sensirion_uart_open() {
+
+    SerialSensor.begin(115200, RX2, TX2);
+
+    return 0;
+}
 
 /**
  * sensirion_uart_close() - release UART resources
  *
  * Return:      0 on success, an error code otherwise
  */
-int16_t sensirion_uart_close();
+int16_t sensirion_uart_close() {
+    SerialSensor.end();
+    return 0;
+}
 
 /**
  * sensirion_uart_tx() - transmit data over UART
@@ -69,7 +86,9 @@ int16_t sensirion_uart_close();
  * @data:       data to send
  * Return:      Number of bytes sent or a negative error code
  */
-int16_t sensirion_uart_tx(uint16_t data_len, const uint8_t *data);
+int16_t sensirion_uart_tx(uint16_t data_len, const uint8_t *data) {
+    return SerialSensor.write(data, data_len);
+}
 
 /**
  * sensirion_uart_rx() - receive data over UART
@@ -78,7 +97,16 @@ int16_t sensirion_uart_tx(uint16_t data_len, const uint8_t *data);
  * @data:       Memory where received data is stored
  * Return:      Number of bytes received or a negative error code
  */
-int16_t sensirion_uart_rx(uint16_t max_data_len, uint8_t *data);
+int16_t sensirion_uart_rx(uint16_t max_data_len, uint8_t *data) {
+    int16_t i = 0;
+
+    while (SerialSensor.available() > 0 && i < max_data_len) {
+        data[i] = (uint8_t)SerialSensor.read();
+        i++;
+    }
+
+    return i;
+}
 
 /**
  * Sleep for a given number of microseconds. The function should delay the
@@ -88,10 +116,6 @@ int16_t sensirion_uart_rx(uint16_t max_data_len, uint8_t *data);
  *
  * @param useconds the sleep time in microseconds
  */
-void sensirion_sleep_usec(uint32_t useconds);
-
-#ifdef __cplusplus
+void sensirion_sleep_usec(uint32_t useconds) {
+    delay((useconds / 1000) + 1);
 }
-#endif
-
-#endif /* SENSIRION_UART_H */

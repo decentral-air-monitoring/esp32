@@ -29,16 +29,16 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "sensirion_arch_config.h"
-#include "sensirion_uart.h"
+#ifndef SENSIRION_UART_H
+#define SENSIRION_UART_H
 
-/*
- * INSTRUCTIONS
- * ============
- *
- * Implement all functions where they are marked with TODO: implement
- * Follow the function specification in the comments.
- */
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+#include "sensirion_arch_config.h"
+
 
 /**
  * sensirion_uart_select_port() - select the UART port index to use
@@ -47,28 +47,21 @@
  *
  * Return:      0 on success, an error code otherwise
  */
-int16_t sensirion_uart_select_port(uint8_t port) {
-    return 0;
-}
+int16_t sensirion_uart_select_port(uint8_t port);
 
 /**
  * sensirion_uart_open() - initialize UART
  *
  * Return:      0 on success, an error code otherwise
  */
-int16_t sensirion_uart_open() {
-    return 0;
-}
+int16_t sensirion_uart_open();
 
 /**
  * sensirion_uart_close() - release UART resources
  *
  * Return:      0 on success, an error code otherwise
  */
-int16_t sensirion_uart_close() {
-    // TODO: implement
-    return 0;
-}
+int16_t sensirion_uart_close();
 
 /**
  * sensirion_uart_tx() - transmit data over UART
@@ -77,10 +70,7 @@ int16_t sensirion_uart_close() {
  * @data:       data to send
  * Return:      Number of bytes sent or a negative error code
  */
-int16_t sensirion_uart_tx(uint16_t data_len, const uint8_t *data) {
-    // TODO: implement
-    return 0;
-}
+int16_t sensirion_uart_tx(uint16_t data_len, const uint8_t *data);
 
 /**
  * sensirion_uart_rx() - receive data over UART
@@ -89,10 +79,7 @@ int16_t sensirion_uart_tx(uint16_t data_len, const uint8_t *data) {
  * @data:       Memory where received data is stored
  * Return:      Number of bytes received or a negative error code
  */
-int16_t sensirion_uart_rx(uint16_t max_data_len, uint8_t *data) {
-    // TODO: implement
-    return 0;
-}
+int16_t sensirion_uart_rx(uint16_t max_data_len, uint8_t *data);
 
 /**
  * Sleep for a given number of microseconds. The function should delay the
@@ -102,6 +89,10 @@ int16_t sensirion_uart_rx(uint16_t max_data_len, uint8_t *data) {
  *
  * @param useconds the sleep time in microseconds
  */
-void sensirion_sleep_usec(uint32_t useconds) {
-    // TODO: implement
+void sensirion_sleep_usec(uint32_t useconds);
+
+#ifdef __cplusplus
 }
+#endif
+
+#endif /* SENSIRION_UART_H */

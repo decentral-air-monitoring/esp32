@@ -31,7 +31,7 @@
 
 #include "sensirion_shdlc.h"
 #include "sensirion_arch_config.h"
-#include "sensirion_uart.h"
+#include "sensirion_uart.hpp"
 
 #define SHDLC_START 0x7e
 #define SHDLC_STOP 0x7e
