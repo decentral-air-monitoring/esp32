@@ -3,12 +3,18 @@
 
 #include "common.hpp"
 
+enum SENSOR_STATUS {
+    OK_MASS = 20,
+    OK_COUNT = 21,
+    ERROR = 30
+};
+
 struct sensorData{
     unsigned int pm1;
     unsigned int pm25;
     unsigned int pm4;
     unsigned int pm10;
-    unsigned short status = 30;
+    unsigned short status = SENSOR_STATUS::ERROR;
     time_t time;
 };
 class Sensor
