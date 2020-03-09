@@ -8,6 +8,7 @@
 #define MQTT_LENGTH 25
 
 struct sensorData;
+struct airSensorData;
 
 class MQTT {
     public:
@@ -16,6 +17,7 @@ class MQTT {
         void handle();
         void send();
         void send(sensorData d);
+        void send(sensorData d, airSensorData a);
         void sendInitPacket();
     private:
         PubSubClient client;

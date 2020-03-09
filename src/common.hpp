@@ -6,6 +6,9 @@ class Config;
 #define TX2 21 //grün
 #define RX2 22 //blau
 
+#define I2C_SDA 13
+#define I2C_SCL 12
+
 #include <Arduino.h>
 #include <string>
 #include <time.h>
@@ -16,6 +19,7 @@ class Config;
 #include "ConfigMode.hpp"
 #include "SerialTerminal.hpp"
 #include "Sensor.hpp"
+#include "AirSensor.hpp"
 #include "MQTT.hpp"
 
 enum OPERATION_MODE {config, normal};
