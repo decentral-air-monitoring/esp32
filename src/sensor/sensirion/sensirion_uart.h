@@ -32,6 +32,7 @@
 #ifndef SENSIRION_UART_H
 #define SENSIRION_UART_H
 
+
 #ifdef __cplusplus
 extern "C" {
 #endif
