@@ -33,6 +33,7 @@
 #define SPS30_HPP
 #include "common.hpp"
 #include "Sensor.hpp"
+#include "sensirion/sensirion_uart.h"
 #include "sensirion/sensirion_arch_config.h"
 
 #define SPS30_MAX_SERIAL_LEN 32
@@ -64,7 +65,9 @@ private:
     int startMeasurementInt();
     int stopMeasurement();
     int readMeasurement();
-    
+    int16_t sps30_probe();
+    int16_t sps30_get_serial(char *);
+
 public:
     SPS30();
     ~SPS30();
