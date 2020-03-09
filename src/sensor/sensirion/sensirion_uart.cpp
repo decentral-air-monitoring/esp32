@@ -35,8 +35,6 @@
 
 #include "sensirion_arch_config.h"
 
-#define TX2 21 //grün
-#define RX2 22 //blau
 
 /*
  * INSTRUCTIONS
@@ -64,7 +62,7 @@ int16_t sensirion_uart_select_port(uint8_t port) {
  */
 int16_t sensirion_uart_open() {
 
-    SerialSensor.begin(115200, RX2, TX2);
+    SerialSensor.begin(115200, SERIAL_8N1, RX2, TX2);
 
     return 0;
 }
