@@ -8,6 +8,7 @@ struct sensorData{
     unsigned int pm25;
     unsigned int pm4;
     unsigned int pm10;
+    unsigned short status = 30;
     time_t time;
 };
 class Sensor
