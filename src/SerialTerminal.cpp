@@ -38,6 +38,9 @@ void SerialTerminal::printConfiguration() {
 }
 
 void SerialTerminal::handle() {
+    if(Serial.available()) {
+        ledState = !ledState;
+    }
     while(Serial.available() > 0) {
         // Check for free buffer
         if(this->serialBufferPointer<SERIAL_BUF_LENGTH-1) {

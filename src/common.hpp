@@ -23,4 +23,5 @@ extern OPERATION_MODE op_mode;
 
 extern Config configuration;
 extern HardwareSerial SerialSensor;
+extern boolean ledState;
 #endif

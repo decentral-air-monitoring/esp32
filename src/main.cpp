@@ -24,8 +24,13 @@ boolean measurement_running = false;
 
 Sensor* sensor;
 
+boolean ledState=true;
+
 void setup() {
   Serial.begin(115200);
+  // Status LED
+  pinMode(LED_BUILTIN,OUTPUT);
+  digitalWrite(LED_BUILTIN,ledState);
   // Setup Configuration
   configuration.init();
   switch(configuration.getInt("SENSOR_TYPE")) {
@@ -96,6 +101,7 @@ void loop() {
     }
     // Check if it's time for an new readout
     if(millis() - last_read > read_interval) {
+      ledState = !ledState;
       last_read = millis();
       // Check if there is no measurement running
       if(!measurement_running) {
@@ -115,4 +121,5 @@ void loop() {
     }
   }
   terminal.handle();
+  digitalWrite(LED_BUILTIN,ledState);
 }
