@@ -48,7 +48,6 @@ int SDS011::read(float *p25, float *p10) {
 	int checksum_is;
 	int checksum_ok = 0;
 	int error = 1;
-	Serial.println(sds_data->available());
 	while ((sds_data->available() > 0) && (sds_data->available() >= (10-len))) {
 		buffer = sds_data->read();
 		value = int(buffer);
