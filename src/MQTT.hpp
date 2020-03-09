@@ -16,6 +16,7 @@ class MQTT {
         void handle();
         void send();
         void send(sensorData d);
+        void sendInitPacket();
     private:
         PubSubClient client;
         WiFiClient espClient;

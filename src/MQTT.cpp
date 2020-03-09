@@ -30,7 +30,8 @@ void MQTT::handle() {
             this->reconnectLastTry = millis();
             Serial.printf("MQTT: Connecting to %s as user %s\n", this->mqttServer, this->mqttUser);
             if (this->client.connect("ESP32Client",this->mqttUser,this->mqttPassword)) {
-                Serial.println("MQTT: connected");                  
+                Serial.println("MQTT: connected");
+                this->sendInitPacket();                 
             } else {
                 Serial.print("MQTT: Connection failed failed with state ");
                 Serial.println(this->client.state());
@@ -50,6 +51,15 @@ void MQTT::send(sensorData d) {
     if(this->client.connected()) {
         char msg[80];
         sprintf(msg,"%i,%i,%i,%i,%i,%i,42,42,42",configuration.getInt("STATION_ID"), d.status, d.pm1,d.pm25,d.pm4,d.pm10);
+        this->client.publish("particle", msg);
+    }
+}
+
+void MQTT::sendInitPacket() {
+    if(this->client.connected()) {
+        char msg[80];
+        // StationId, 10, Sensortype Particle, Sensortype Environment, Connection Type
+        sprintf(msg,"%i,%i,%i",configuration.getInt("STATION_ID"), 10, configuration.getInt("SENSOR_TYPE"));
         this->client.publish("particle", msg);
     }
 }
