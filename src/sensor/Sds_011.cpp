@@ -31,9 +31,11 @@ sensorData Sds_011::getData()
     if (!err){
         p10=p10*1000;
         p25=p25*1000;
+        this->data.status = SENSOR_STATUS::OK_MASS;
         this->data.pm25 = (int)p25;
         this->data.pm10 = (int)p10;
     }else{
+        this->data.status = SENSOR_STATUS::ERROR;
         Serial.println("error");
         Serial.println(p25);
     }
