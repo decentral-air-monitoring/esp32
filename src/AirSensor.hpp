@@ -19,4 +19,5 @@ public:
 };
 
 #include "airsensor/AirDefaultSensor.hpp"
+#include "airsensor/BME680.hpp"
 #endif

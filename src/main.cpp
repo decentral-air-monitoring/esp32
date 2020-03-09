@@ -53,6 +53,9 @@ void setup() {
   }
   // Choose air sensor
   switch(configuration.getInt("AIR_SENSOR_TYPE")) {
+    case 1:
+      air_sensor = new BME680();
+    break;
     default:
       air_sensor = new AirDefaultSensor();
   }
