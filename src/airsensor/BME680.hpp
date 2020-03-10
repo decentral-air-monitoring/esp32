@@ -2,13 +2,14 @@
 #define BME680_SENSOR_HPP
 #include "AirSensor.hpp"
 #include <stdlib.h>
-#include <bsec.h>
+#include <Adafruit_Sensor.h>
+#include <Adafruit_BME680.h>
 
 class BME680 : public AirSensor
 {
 private:
+    Adafruit_BME680* bme;
     airSensorData data;
-    Bsec iaqSensor;
 public:
     BME680();
     ~BME680();
