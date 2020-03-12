@@ -32,8 +32,8 @@ airSensorData BME680::getData()
         Serial.println("Failed to perform reading :(");
         return data;
     }
-    data.humidity = bme->readHumidity();
+    data.humidity = bme->readHumidity()*1000;
     data.pressure = bme->readPressure();
-    data.temperature = bme->readTemperature();
+    data.temperature = bme->readTemperature()*1000;
     return data;
 }
