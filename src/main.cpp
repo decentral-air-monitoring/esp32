@@ -29,12 +29,13 @@ boolean ledState=true;
 
 void setup() {
   Serial.begin(115200);
+  delay(1);
+  // Setup Configuration
+  configuration.init();
   terminal.init();
   // Status LED
   pinMode(LED_BUILTIN,OUTPUT);
   digitalWrite(LED_BUILTIN,ledState);
-  // Setup Configuration
-  configuration.init();
   // sensor->init(); ToDo: Actively initialize the sensor if necessary
   Heltec.begin(true /*DisplayEnable Enable*/, false /*LoRa Disable*/, true /*Serial Enable*/);
   // Check Mode

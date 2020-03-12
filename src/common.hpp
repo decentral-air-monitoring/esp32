@@ -7,7 +7,7 @@ class Config;
 #define RX2 22 //blau
 
 #define I2C_SDA 13
-#define I2C_SCL 12
+#define I2C_SCL 17
 
 #include <Arduino.h>
 #include <string>

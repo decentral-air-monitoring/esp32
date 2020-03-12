@@ -6,11 +6,16 @@ BME680::BME680() : AirSensor()
     data.temperature = 22;
     data.humidity = 21;
     data.pressure = 20;
-    Wire.begin(I2C_SDA,I2C_SCL);
+    if(!Wire.begin(I2C_SDA,I2C_SCL)) {
+        Serial.println("Wire: Initialization Error");
+        return;
+    }
     bme = new Adafruit_BME680(&Wire);
     if(!bme->begin()) {
         Serial.println("BME680: Initialization Error");
+        return;
     }
+    Serial.println("BME680 Initialized");
 }
 
 BME680::~BME680()
