@@ -8,6 +8,9 @@ BME680::BME680() : AirSensor()
     data.pressure = 20;
     Wire.begin(I2C_SDA,I2C_SCL);
     bme = new Adafruit_BME680(&Wire);
+    if(!bme->begin()) {
+        Serial.println("BME680: Initialization Error");
+    }
 }
 
 BME680::~BME680()
@@ -20,5 +23,12 @@ void BME680::handle()
 
 airSensorData BME680::getData()
 {
+    if (! bme->performReading()) {
+        Serial.println("Failed to perform reading :(");
+        return data;
+    }
+    data.humidity = bme->readHumidity();
+    data.pressure = bme->readPressure();
+    data.temperature = bme->readTemperature();
     return data;
 }
