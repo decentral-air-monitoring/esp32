@@ -29,44 +29,44 @@ boolean ledState=true;
 
 void setup() {
   Serial.begin(115200);
+  terminal.init();
   // Status LED
   pinMode(LED_BUILTIN,OUTPUT);
   digitalWrite(LED_BUILTIN,ledState);
   // Setup Configuration
   configuration.init();
-  // Choose particle sensor
-  switch(configuration.getInt("SENSOR_TYPE")) {
-    case 4:
-      sensor = new SPS30();
-      break;
-    case 3:
-      sensor = new HPMA115C0();
-      break;
-    case 2:
-      sensor = new Sds_011();
-      break;
-    case 1:
-      sensor = new DemoSensor();
-      break;
-    default:
-      sensor = new DefaultSensor();
-  }
-  // Choose air sensor
-  switch(configuration.getInt("AIR_SENSOR_TYPE")) {
-    case 1:
-      air_sensor = new BME680();
-    break;
-    default:
-      air_sensor = new AirDefaultSensor();
-  }
   // sensor->init(); ToDo: Actively initialize the sensor if necessary
   Heltec.begin(true /*DisplayEnable Enable*/, false /*LoRa Disable*/, true /*Serial Enable*/);
-  terminal.init();
   // Check Mode
   if(configuration.getBool("CONFIGURED")) {
     // Start normal operation
     Serial.println("operation mode");
     op_mode = normal;
+      // Choose particle sensor
+    switch(configuration.getInt("SENSOR_TYPE")) {
+      case 4:
+        sensor = new SPS30();
+        break;
+      case 3:
+        sensor = new HPMA115C0();
+        break;
+      case 2:
+        sensor = new Sds_011();
+        break;
+      case 1:
+        sensor = new DemoSensor();
+        break;
+      default:
+        sensor = new DefaultSensor();
+    }
+    // Choose air sensor
+    switch(configuration.getInt("AIR_SENSOR_TYPE")) {
+      case 1:
+        air_sensor = new BME680();
+      break;
+      default:
+        air_sensor = new AirDefaultSensor();
+    }
   } else {
     // Enter config mode
     Serial.println("configuration mode");
