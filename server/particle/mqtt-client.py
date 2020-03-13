@@ -45,8 +45,9 @@ def on_message(client, userdata, msg):
     try:
         print(msg.topic+" "+str(msg.payload))
         sensorData = model_values(msg)
-        store_data(sensorData)
-        logging.info(str(msg.payload) + 'successfully stored to influxdb')
+        if sensorData:
+            store_data(sensorData)
+            logging.info(str(msg.payload) + 'successfully stored to influxdb')
     except Exception as e:
         print(e)
         logging.error(str(msg.payload) + 'error storing data to influxdb')
