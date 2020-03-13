@@ -12,5 +12,7 @@ public:
     ~AirDefaultSensor();
     void handle();
     airSensorData getData();
+    void startMeasurement();
+    boolean measurementStatus();
 };
 #endif

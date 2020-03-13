@@ -16,6 +16,8 @@ public:
     ~AirSensor();
     virtual void handle() = 0;
     virtual airSensorData getData() = 0;
+    virtual void startMeasurement() = 0;
+    virtual boolean measurementStatus() = 0;
 };
 
 #include "airsensor/AirDefaultSensor.hpp"

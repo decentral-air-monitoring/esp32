@@ -15,5 +15,7 @@ public:
     ~BME680();
     void handle();
     airSensorData getData();
+    void startMeasurement();
+    boolean measurementStatus();
 };
 #endif

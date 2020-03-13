@@ -105,11 +105,14 @@ void loop() {
     sensor->handle();
     air_sensor->handle();
     // If there is an measurement running and data available, send out data
-    if(measurement_running && sensor->measurementStatus()) {
+    // ToDo: Timeout
+    if(measurement_running && sensor->measurementStatus() && air_sensor->measurementStatus()) {
       measurement_running = false;
       // Send measurement data
       sensorData data = sensor->getData();
-      mqtt.send(data);
+      airSensorData air_data = air_sensor->getData();
+      mqtt.send(data,air_data);
+      // ToDo: Send Lora
     }
     // Check if it's time for an new readout
     if(millis() - last_read > read_interval) {
@@ -119,19 +122,19 @@ void loop() {
       if(!measurement_running) {
         // Start measurement
         sensor->startMeasurement();
+        air_sensor->startMeasurement();
         // Check if we have an immediate result
-        if(sensor->measurementStatus()) {
+        if(sensor->measurementStatus() && air_sensor->measurementStatus()) {
           // Send measurement data
           sensorData data = sensor->getData();
-          // ToDo: Error/okay state machine
           airSensorData air_data = air_sensor->getData();
           mqtt.send(data,air_data);
+          // ToDo: Call LoRa transmit
         } else {
           // set flag
           measurement_running = true;
         }
       }
-      // ToDo: Call LoRa transmit
     }
   }
   terminal.handle();

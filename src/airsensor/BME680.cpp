@@ -37,3 +37,11 @@ airSensorData BME680::getData()
     data.temperature = bme->readTemperature()*1000;
     return data;
 }
+
+void BME680::startMeasurement() {
+
+}
+
+boolean BME680::measurementStatus() {
+    return true; 
+}

@@ -20,3 +20,11 @@ airSensorData AirDefaultSensor::getData()
 {
     return data;
 }
+
+void AirDefaultSensor::startMeasurement() {
+
+}
+
+boolean AirDefaultSensor::measurementStatus() {
+    return true;
+}
