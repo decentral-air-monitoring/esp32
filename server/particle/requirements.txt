@@ -1,3 +1,0 @@
-influxdb
-paho-mqtt
-logging
