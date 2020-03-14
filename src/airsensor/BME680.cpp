@@ -3,9 +3,9 @@
 
 BME680::BME680() : AirSensor()
 {
-    data.temperature = 22;
-    data.humidity = 21;
-    data.pressure = 20;
+    data.temperature = INVAL;
+    data.humidity = INVAL;
+    data.pressure = INVAL;
     if(!Wire.begin(I2C_SDA,I2C_SCL)) {
         Serial.println("Wire: Initialization Error");
         return;
@@ -36,9 +36,9 @@ airSensorData BME680::getData()
 {
     if(this->status) {
     } else {
-        this->data.temperature = -30000;
-        this->data.humidity = -30000;
-        this->data.pressure = -30000;
+        this->data.temperature = INVAL;
+        this->data.humidity = INVAL;
+        this->data.pressure = INVAL;
     }
     return data;
 }
