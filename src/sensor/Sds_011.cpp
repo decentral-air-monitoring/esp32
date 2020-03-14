@@ -2,10 +2,10 @@
 
 Sds_011::Sds_011() : Sensor()
 {
-    this->data.pm10 = -1;
-    this->data.pm4 = -1;
-    this->data.pm25 = -1;
-    this->data.pm1 = -1;
+    this->data.pm10 = INVAL;
+    this->data.pm4 = INVAL;
+    this->data.pm25 = INVAL;
+    this->data.pm1 = INVAL;
     
     this->my_sds.begin(&SerialSensor,RX2,TX2);
     this->my_sds.wakeup();
@@ -23,8 +23,8 @@ void Sds_011::handle()
 sensorData Sds_011::getData()
 {
     boolean err;
-    float p10 = -1;
-    float p25 = -1;
+    float p10 = INVAL;
+    float p25 = INVAL;
     
     err = this->my_sds.read(&p25, &p10);
 
