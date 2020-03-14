@@ -24,11 +24,15 @@ BME680::~BME680()
 
 void BME680::handle()
 {
-    if(this->bme->endReading()) {
-        this->status=true;
-        this->data.humidity = this->bme->readHumidity()*1000;
-        this->data.pressure = this->bme->readPressure();
-        this->data.temperature = this->bme->readTemperature()*1000;
+    // only read out if BME is over end time and a measurement is active
+    if(millis()>this->endTime && this->active) {
+        if(this->bme->endReading()) {
+            this->active=false;
+            this->status=true;
+            this->data.humidity = this->bme->readHumidity()*1000;
+            this->data.pressure = this->bme->readPressure();
+            this->data.temperature = this->bme->readTemperature()*1000;
+        }
     }
 }
 
@@ -44,6 +48,7 @@ airSensorData BME680::getData()
 }
 
 void BME680::startMeasurement() {
+    this->active = true;
     this->status = false;
     this->endTime = this->bme->beginReading();
     if(this->endTime == 0) {

@@ -12,6 +12,7 @@ private:
     airSensorData data;
     unsigned long endTime;
     boolean status = false;
+    boolean active = false;
 public:
     BME680();
     ~BME680();
