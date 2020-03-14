@@ -104,9 +104,11 @@ void loop() {
     mqtt.handle();
     sensor->handle();
     air_sensor->handle();
-    // If there is an measurement running and data available, send out data
-    // ToDo: Timeout
-    if(measurement_running && sensor->measurementStatus() && air_sensor->measurementStatus()) {
+    // If there is an measurement running and (data available or timeout exceeded), send out data, or if timeout exceeded
+    if(measurement_running && ((sensor->measurementStatus() && air_sensor->measurementStatus()) || (millis() - last_read > read_interval))) {
+      if(millis() - last_read > read_interval) {
+        Serial.println("Measurement: Timeout exceeded, sending anyway!");
+      }
       measurement_running = false;
       // Send measurement data
       sensorData data = sensor->getData();
@@ -114,26 +116,23 @@ void loop() {
       mqtt.send(data,air_data);
       // ToDo: Send Lora
     }
-    // Check if it's time for an new readout
-    if(millis() - last_read > read_interval) {
+    // Check if it's time for an new readout and no measurement is running
+    if((millis() - last_read > read_interval) && !measurement_running) {
       ledState = !ledState;
       last_read = millis();
-      // Check if there is no measurement running
-      if(!measurement_running) {
-        // Start measurement
-        sensor->startMeasurement();
-        air_sensor->startMeasurement();
-        // Check if we have an immediate result
-        if(sensor->measurementStatus() && air_sensor->measurementStatus()) {
-          // Send measurement data
-          sensorData data = sensor->getData();
-          airSensorData air_data = air_sensor->getData();
-          mqtt.send(data,air_data);
-          // ToDo: Call LoRa transmit
-        } else {
-          // set flag
-          measurement_running = true;
-        }
+      // Start measurement
+      sensor->startMeasurement();
+      air_sensor->startMeasurement();
+      // Check if we have an immediate result
+      if(sensor->measurementStatus() && air_sensor->measurementStatus()) {
+        // Send measurement data
+        sensorData data = sensor->getData();
+        airSensorData air_data = air_sensor->getData();
+        mqtt.send(data,air_data);
+        // ToDo: Call LoRa transmit
+      } else {
+        // set flag
+        measurement_running = true;
       }
     }
   }
