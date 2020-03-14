@@ -10,10 +10,10 @@ enum SENSOR_STATUS {
 };
 
 struct sensorData{
-    unsigned int pm1;
-    unsigned int pm25;
-    unsigned int pm4;
-    unsigned int pm10;
+    int32_t pm1;
+    int32_t pm25;
+    int32_t pm4;
+    int32_t pm10;
     unsigned short status = SENSOR_STATUS::ERROR;
     time_t time;
 };

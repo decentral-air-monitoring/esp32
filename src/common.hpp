@@ -9,6 +9,8 @@ class Config;
 #define I2C_SDA 13
 #define I2C_SCL 17
 
+#define INVAL -300000
+
 #include <Arduino.h>
 #include <string>
 #include <time.h>

@@ -4,9 +4,9 @@
 #include "common.hpp"
 
 struct airSensorData{
-    int temperature;
-    unsigned int pressure;
-    unsigned int humidity;
+    int32_t temperature;
+    int32_t pressure;
+    int32_t humidity;
 };
 
 class AirSensor
