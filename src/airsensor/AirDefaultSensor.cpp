@@ -3,9 +3,9 @@
 
 AirDefaultSensor::AirDefaultSensor() : AirSensor()
 {
-    data.temperature = 22;
-    data.humidity = 21;
-    data.pressure = 20;
+    data.temperature = INVAL;
+    data.humidity = INVAL;
+    data.pressure = INVAL;
 }
 
 AirDefaultSensor::~AirDefaultSensor()

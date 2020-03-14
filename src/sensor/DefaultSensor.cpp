@@ -3,10 +3,10 @@
 
 DefaultSensor::DefaultSensor() : Sensor()
 {
-    data.pm1  = -1;
-    data.pm25 = -1;
-    data.pm4  = -1;
-    data.pm10 = -1;
+    data.pm1  = INVAL;
+    data.pm25 = INVAL;
+    data.pm4  = INVAL;
+    data.pm10 = INVAL;
 }
 
 DefaultSensor::~DefaultSensor()
