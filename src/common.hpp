@@ -23,6 +23,7 @@ class Config;
 #include "Sensor.hpp"
 #include "AirSensor.hpp"
 #include "MQTT.hpp"
+#include "TTN.hpp"
 
 enum OPERATION_MODE {config, normal};
 extern OPERATION_MODE op_mode;

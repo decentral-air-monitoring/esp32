@@ -13,6 +13,7 @@ ConfigMode config_mode;
 SerialTerminal terminal;
 Config configuration;
 MQTT mqtt;
+TTN ttn;
 HardwareSerial SerialSensor(2);
 
 // Timing data
@@ -27,6 +28,8 @@ AirSensor* air_sensor;
 
 boolean ledState=true;
 
+boolean lora_en=false;
+
 void setup() {
   Serial.begin(115200);
   delay(1);
@@ -37,7 +40,12 @@ void setup() {
   pinMode(LED_BUILTIN,OUTPUT);
   digitalWrite(LED_BUILTIN,ledState);
   // sensor->init(); ToDo: Actively initialize the sensor if necessary
-  Heltec.begin(true /*DisplayEnable Enable*/, false /*LoRa Disable*/, true /*Serial Enable*/);
+  lora_en = configuration.getBool("LORA_ENABLED");
+  if(lora_en) {
+    Heltec.begin(true /*DisplayEnable Enable*/, true /*LoRa Enabled*/, true /*Serial Enable*/);
+  } else {
+    Heltec.begin(true /*DisplayEnable Enable*/, false /*LoRa Disabled*/, true /*Serial Enable*/);
+  }
   // Check Mode
   if(configuration.getBool("CONFIGURED")) {
     // Start normal operation
@@ -76,6 +84,10 @@ void setup() {
   air_wifi.init();
   display.init();
   
+  // Initialize LoRa if enabled
+  if(lora_en) {
+    ttn.init();
+  }
   // Readout Timing
   read_interval = configuration.getInt("READ_INTERVAL")*1000;
 
