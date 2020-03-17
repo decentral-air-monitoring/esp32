@@ -39,7 +39,7 @@ class Config{
 
         CONFIG_TYPE getType(const char * key);
 
-        const config_item keys[17] = {
+        const config_item keys[20] = {
             {"CONFIGURED", CONFIG_TYPE::BOOL, {.b = false }},
             {"CONFIG_AP_NAME", CONFIG_TYPE::STRING, {.s = "Particle-Config"}},
             {"READ_INTERVAL", CONFIG_TYPE::INT, {.i = 10}},
@@ -57,6 +57,9 @@ class Config{
             {"AIR_SENSOR_TYPE", CONFIG_TYPE::INT, {.i = 0}},
             {"STATION_ID", CONFIG_TYPE::INT, {.i = -1}},
             {"LORA_ENABLED", CONFIG_TYPE::BOOL, {.b = false}},
+            {"TTN_DEV_EUI", CONFIG_TYPE::STRING, {.s = ""}},
+            {"TTN_APP_EUI", CONFIG_TYPE::STRING, {.s = ""}},
+            {"TTN_APP_KEY", CONFIG_TYPE::STRING, {.s = ""}}
         };
     private:
         Preferences preferences;

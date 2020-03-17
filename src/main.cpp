@@ -126,7 +126,9 @@ void loop() {
       sensorData data = sensor->getData();
       airSensorData air_data = air_sensor->getData();
       mqtt.send(data,air_data);
-      // ToDo: Send Lora
+      if(lora_en) {
+        ttn.send(data,air_data);
+      }
     }
     // Check if it's time for an new readout and no measurement is running
     if((millis() - last_read > read_interval) && !measurement_running) {
