@@ -9,6 +9,13 @@ struct airSensorData;
 
 #define TTN_BUFFER 64
 
+enum TTN_STATUS {
+    INIT,
+    WAIT_JOIN,
+    JOINED,
+    ERR
+};
+
 class TTN {
     public:
         TTN();
@@ -24,6 +31,7 @@ class TTN {
         char devEui[TTN_BUFFER] = "";
         char appEui[TTN_BUFFER] = "";
         char appKey[TTN_BUFFER] = "";
+        uint8_t status = TTN_STATUS::INIT;
 };
 
 #endif

@@ -114,6 +114,7 @@ void loop() {
     config_mode.handle();
   } else {
     mqtt.handle();
+    ttn.handle();
     sensor->handle();
     air_sensor->handle();
     // If there is an measurement running and (data available or timeout exceeded), send out data, or if timeout exceeded
@@ -143,7 +144,9 @@ void loop() {
         sensorData data = sensor->getData();
         airSensorData air_data = air_sensor->getData();
         mqtt.send(data,air_data);
-        // ToDo: Call LoRa transmit
+        if(lora_en) {
+          ttn.send(data,air_data);
+        }
       } else {
         // set flag
         measurement_running = true;
