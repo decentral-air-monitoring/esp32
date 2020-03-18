@@ -73,7 +73,7 @@ void SerialTerminal::handle() {
 
 void SerialTerminal::receive() {
     char key[20] = "";
-    char value[20] = "";
+    char value[VALUE_LEN] = "";
     if(!strcmp(this->serialBuffer, "PRINT")) {
         this->printConfiguration();
         return;

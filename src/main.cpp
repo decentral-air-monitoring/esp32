@@ -13,6 +13,7 @@ ConfigMode config_mode;
 SerialTerminal terminal;
 Config configuration;
 MQTT mqtt;
+TTN ttn;
 HardwareSerial SerialSensor(2);
 
 // Timing data
@@ -27,6 +28,8 @@ AirSensor* air_sensor;
 
 boolean ledState=true;
 
+boolean lora_en=false;
+
 void setup() {
   Serial.begin(115200);
   delay(1);
@@ -37,7 +40,12 @@ void setup() {
   pinMode(LED_BUILTIN,OUTPUT);
   digitalWrite(LED_BUILTIN,ledState);
   // sensor->init(); ToDo: Actively initialize the sensor if necessary
-  Heltec.begin(true /*DisplayEnable Enable*/, false /*LoRa Disable*/, true /*Serial Enable*/);
+  lora_en = configuration.getBool("LORA_ENABLED");
+  if(lora_en) {
+    Heltec.begin(true /*DisplayEnable Enable*/, true /*LoRa Enabled*/, true /*Serial Enable*/);
+  } else {
+    Heltec.begin(true /*DisplayEnable Enable*/, false /*LoRa Disabled*/, true /*Serial Enable*/);
+  }
   // Check Mode
   if(configuration.getBool("CONFIGURED")) {
     // Start normal operation
@@ -83,6 +91,10 @@ void setup() {
     config_mode.init();
   } else {
     mqtt.init();
+    // Initialize LoRa if enabled
+    if(lora_en) {
+      ttn.init();
+    }
   }
   /* 
 
@@ -102,6 +114,9 @@ void loop() {
     config_mode.handle();
   } else {
     mqtt.handle();
+    if(lora_en) {
+      ttn.handle();
+    }
     sensor->handle();
     air_sensor->handle();
     // If there is an measurement running and (data available or timeout exceeded), send out data, or if timeout exceeded
@@ -114,7 +129,9 @@ void loop() {
       sensorData data = sensor->getData();
       airSensorData air_data = air_sensor->getData();
       mqtt.send(data,air_data);
-      // ToDo: Send Lora
+      if(lora_en) {
+        ttn.send(data,air_data);
+      }
     }
     // Check if it's time for an new readout and no measurement is running
     if((millis() - last_read > read_interval) && !measurement_running) {
@@ -129,7 +146,9 @@ void loop() {
         sensorData data = sensor->getData();
         airSensorData air_data = air_sensor->getData();
         mqtt.send(data,air_data);
-        // ToDo: Call LoRa transmit
+        if(lora_en) {
+          ttn.send(data,air_data);
+        }
       } else {
         // set flag
         measurement_running = true;
