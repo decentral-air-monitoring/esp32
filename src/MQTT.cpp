@@ -41,15 +41,16 @@ void MQTT::handle() {
 }
 
 void MQTT::send() {
-    if(this->client.connected()) {
-        // ToDo: Read values from global Sensor-Singleton
-        this->client.publish("particle", "42,42,42,42,42,42,42,42,42");
-    }
+    airSensorData a;
+    a.humidity = INVAL; a.temperature=INVAL; a.pressure=INVAL;
+    sensorData d;
+    d.pm1 = INVAL; d.pm25=INVAL; d.pm4=INVAL;d.pm10=INVAL; d.status=SENSOR_STATUS::ERROR;
+    this->send(d,a);
 }
 
 void MQTT::send(sensorData d) {
     airSensorData a;
-    a.humidity = -300; a.temperature=-300; a.pressure=-300;
+    a.humidity = INVAL; a.temperature=INVAL; a.pressure=INVAL;
     this->send(d,a);
 }
 

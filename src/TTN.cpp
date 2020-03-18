@@ -36,7 +36,11 @@ void TTN::handle() {
 }
 
 void TTN::send() {
-
+    airSensorData a;
+    a.humidity = INVAL; a.temperature=INVAL; a.pressure=INVAL;
+    sensorData d;
+    d.pm1 = INVAL; d.pm25=INVAL; d.pm4=INVAL;d.pm10=INVAL; d.status=SENSOR_STATUS::ERROR;
+    this->send(d,a);
 }
 
 void TTN::send(sensorData d) {
