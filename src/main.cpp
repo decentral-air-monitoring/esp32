@@ -84,10 +84,6 @@ void setup() {
   air_wifi.init();
   display.init();
   
-  // Initialize LoRa if enabled
-  if(lora_en) {
-    ttn.init();
-  }
   // Readout Timing
   read_interval = configuration.getInt("READ_INTERVAL")*1000;
 
@@ -95,6 +91,10 @@ void setup() {
     config_mode.init();
   } else {
     mqtt.init();
+    // Initialize LoRa if enabled
+    if(lora_en) {
+      ttn.init();
+    }
   }
   /* 
 
@@ -114,7 +114,9 @@ void loop() {
     config_mode.handle();
   } else {
     mqtt.handle();
-    ttn.handle();
+    if(lora_en) {
+      ttn.handle();
+    }
     sensor->handle();
     air_sensor->handle();
     // If there is an measurement running and (data available or timeout exceeded), send out data, or if timeout exceeded
