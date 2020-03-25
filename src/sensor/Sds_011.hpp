@@ -9,6 +9,8 @@ class Sds_011 : public Sensor
 private:
     sensorData data;
     SDS011 my_sds;
+    boolean status = false;
+    boolean active = false;
 public:
     Sds_011();
     ~Sds_011();
