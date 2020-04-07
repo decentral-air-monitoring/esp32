@@ -32,9 +32,12 @@
 #include "common.hpp"
 #include "sensirion_uart.hpp"
 #include "wiring_private.h"
-
+#include "Arduino.h"
 #include "sensirion_arch_config.h"
 
+HardwareSerial SERIALDEVICE_SPS30(2);
+
+#define BAUDRATE 115200  // baud rate of SPS30
 
 /*
  * INSTRUCTIONS
@@ -62,8 +65,7 @@ int16_t sensirion_uart_select_port(uint8_t port) {
  */
 int16_t sensirion_uart_open() {
 
-    SerialSensor.begin(115200, SERIAL_8N1, RX2, TX2);
-
+    SERIALDEVICE_SPS30.begin(BAUDRATE, SERIAL_8N1, RX2, TX2);
     return 0;
 }
 
@@ -73,7 +75,7 @@ int16_t sensirion_uart_open() {
  * Return:      0 on success, an error code otherwise
  */
 int16_t sensirion_uart_close() {
-    SerialSensor.end();
+    SERIALDEVICE_SPS30.end();
     return 0;
 }
 
@@ -85,9 +87,7 @@ int16_t sensirion_uart_close() {
  * Return:      Number of bytes sent or a negative error code
  */
 int16_t sensirion_uart_tx(uint16_t data_len, const uint8_t *data) {
-    //TODO write untersuchen auf write
-    SerialSensor.write(data, data_len);
-    return 0;
+    return SERIALDEVICE_SPS30.write(data, data_len);
 }
 
 /**
@@ -100,11 +100,10 @@ int16_t sensirion_uart_tx(uint16_t data_len, const uint8_t *data) {
 int16_t sensirion_uart_rx(uint16_t max_data_len, uint8_t *data) {
     int16_t i = 0;
 
-    while (SerialSensor.available() > 0 && i < max_data_len) {
-        data[i] = (uint8_t)SerialSensor.read();
+    while (SERIALDEVICE_SPS30.available() > 0 && i < max_data_len) {
+        data[i] = (uint8_t)SERIALDEVICE_SPS30.read();
         i++;
     }
-
     return i;
 }
 

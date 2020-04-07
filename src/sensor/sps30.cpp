@@ -33,24 +33,23 @@
 #include "sensirion/sensirion_shdlc.h"
 
 #define SPS30_ADDR 0x00
-#define SPS30_CMD_START_MEASUREMENT 0x00
-#define SPS30_CMD_STOP_MEASUREMENT 0x01
-#define SPS30_SUBCMD_MEASUREMENT_START                                         \
-    { 0x01, 0x03 }
+#define SPS30_CMD_MEASUREMENT 0x00
+#define SPS30_SUBCMD_MEASUREMENT_STOP { 0x00 }
+#define SPS30_SUBCMD_MEASUREMENT_START { 0x01, 0x03 }
 #define SPS30_CMD_READ_MEASUREMENT 0x03
 #define SPS30_CMD_FAN_CLEAN_INTV 0x80
 #define SPS30_CMD_FAN_CLEAN_INTV_LEN 5
 #define SPS30_SUBCMD_READ_FAN_CLEAN_INTV 0x00
 #define SPS30_CMD_START_FAN_CLEANING 0x56
 #define SPS30_CMD_DEV_INFO 0xd0
-#define SPS30_CMD_DEV_INFO_SUBCMD_GET_SERIAL                                   \
-    { 0x03 }
+#define SPS30_CMD_DEV_INFO_SUBCMD_GET_SERIAL { 0x03 }
 #define SPS30_CMD_RESET 0xd3
 #define SPS30_ERR_STATE(state) (SPS30_ERR_STATE_MASK | (state))
 
 SPS30::SPS30() : Sensor()
 {
     //this->serialPort.begin(115200,SERIAL_8N1);
+    setup();
     this->data.pm10 = -1;
     this->data.pm4 = -1;
     this->data.pm25 = -1;
@@ -63,10 +62,12 @@ SPS30::~SPS30()
 
 void SPS30::handle()
 {
-  sps30_probe();
-  if (startMeasurementInt() != 0) {
-      Serial.write("error starting measurement\n");
-  }
+    /*int16_t probe;
+    probe = sps30_probe();
+    Serial.println(probe);
+    if (startMeasurementInt() != 0) {
+        Serial.write("error starting measurement\n");
+    }*/
 }
 
 
@@ -96,14 +97,24 @@ int16_t SPS30::sps30_probe() {
 
 void SPS30::setup()
 {
-  Serial.begin(115200);
-  sensirion_uart_open();
+    Serial.begin(115200);
+    sensirion_uart_open();
+
+    while (sps30_probe() != 0) {
+        Serial.println("probe failed");
+        delay(1000);
+    }
+
+    if (startMeasurementInt() != 0) {
+        Serial.println("error starting measurement");
+    }
 }
 
 sensorData SPS30::getData()
 {
-  if (this->readMeasurement() != 0) {
+  if (this->readMeasurement() < 0) {
       Serial.write("error reading measurement\n");
+      Serial.println(this->readMeasurement());
   }else{
       data.pm1 = this->measurement.count_pm1;
       data.pm25 = this->measurement.count_pm2_5;
@@ -116,19 +127,18 @@ sensorData SPS30::getData()
 
 int SPS30::startMeasurementInt()
 {
-    struct sensirion_shdlc_rx_header header;
     uint8_t param_buf[] = SPS30_SUBCMD_MEASUREMENT_START;
 
-    return sensirion_shdlc_xcv(SPS30_ADDR, SPS30_CMD_START_MEASUREMENT,
-                               sizeof(param_buf), param_buf, 0, &header, NULL);
+    return sensirion_shdlc_tx(SPS30_ADDR, SPS30_CMD_MEASUREMENT,
+                              sizeof(param_buf), param_buf);
 }
 
 int SPS30::stopMeasurement()
 {
-    struct sensirion_shdlc_rx_header header;
+    uint8_t param_buf[] = SPS30_SUBCMD_MEASUREMENT_STOP;
 
-    return sensirion_shdlc_xcv(SPS30_ADDR, SPS30_CMD_STOP_MEASUREMENT, 0, NULL,
-                               0, &header, NULL);
+    return sensirion_shdlc_tx(SPS30_ADDR, SPS30_CMD_MEASUREMENT,
+                              sizeof(param_buf), param_buf);
 }
 
 int SPS30::readMeasurement()
@@ -150,6 +160,7 @@ int SPS30::readMeasurement()
     if (header.data_len != sizeof(data))
         return SPS30_ERR_NOT_ENOUGH_DATA;
 
+    Serial.println("start to store values");
     idx = 0;
     val.u32_value = be32_to_cpu(data[idx].u32_value);
     this->measurement.mass_pm1 = val.f32_value;
