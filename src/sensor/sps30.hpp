@@ -56,6 +56,7 @@ struct receive_data {
 class SPS30:public Sensor
 {
 private:
+    int status;
     sensorData data;
     struct receive_data measurement;
     void setup();
