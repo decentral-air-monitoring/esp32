@@ -114,11 +114,11 @@ sensorData SPS30::getData()
       Serial.println(this->readMeasurement());
       this->status = SENSOR_STATUS::ERROR;
   }else{
-      this->status = SENSOR_STATUS::OK_COUNT;;
-      data.pm1 = this->measurement.count_pm1;
-      data.pm25 = this->measurement.count_pm2_5;
-      data.pm4 = this->measurement.count_pm4;
-      data.pm10 = this->measurement.count_pm10;
+      this->status = SENSOR_STATUS::OK_MASS;;
+      data.pm1 = (int)(this->measurement.mass_pm1*1000);
+      data.pm25 = (int)(this->measurement.mass_pm2_5*1000);
+      data.pm4 = (int)(this->measurement.mass_pm4*1000);
+      data.pm10 = (int)(this->measurement.mass_pm10*1000);
       data.status = this->status;
     }
   return data;
