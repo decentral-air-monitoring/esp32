@@ -10,6 +10,7 @@ void MQTT::init() {
     configuration.getString("MQTT_PASSWORD").toCharArray(this->mqttPassword,MQTT_LENGTH);
     this->mqttPort = configuration.getInt("MQTT_PORT");
     this->reconnectInterval = configuration.getInt("MQTT_RECONNECT")*1000;
+    sprintf(this->mqttName,"AirQualityStation%i",configuration.getInt("STATION_ID"));
     if(configuration.getBool("MQTT_TLS")) {
       // MQTT with TLS
       this->client.setClient(this->espClientSecure);
@@ -28,8 +29,9 @@ void MQTT::handle() {
         if((millis() - this->reconnectLastTry > this->reconnectInterval) || this->connectFirstTry) {
             this->connectFirstTry = false;
             this->reconnectLastTry = millis();
+            Serial.printf("MQTT: Status %i\n",this->client.state());
             Serial.printf("MQTT: Connecting to %s as user %s\n", this->mqttServer, this->mqttUser);
-            if (this->client.connect("ESP32Client",this->mqttUser,this->mqttPassword)) {
+            if (this->client.connect(this->mqttName,this->mqttUser,this->mqttPassword)) {
                 Serial.println("MQTT: connected");
                 this->sendInitPacket();                 
             } else {
