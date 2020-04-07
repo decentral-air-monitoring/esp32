@@ -40,6 +40,7 @@ void MQTT::handle() {
             }
         }
     }
+    this->client.loop();
 }
 
 void MQTT::send() {
