@@ -47,10 +47,12 @@ struct receive_data {
     float32_t mass_pm2_5;
     float32_t mass_pm4;
     float32_t mass_pm10;
+    float32_t count_pm0_5;
     float32_t count_pm1;
     float32_t count_pm2_5;
     float32_t count_pm4;
     float32_t count_pm10;
+    float32_t typical_particle_size;
 };
 
 class SPS30:public Sensor
@@ -65,6 +67,8 @@ private:
     int readMeasurement();
     int16_t sps30_probe();
     int16_t sps30_get_serial(char *);
+    s16_t sps30_set_fan_auto_cleaning_interval(uint32_t);
+    s16_t sps30_set_fan_auto_cleaning_interval_days(uint8_t);
 
 public:
     SPS30();

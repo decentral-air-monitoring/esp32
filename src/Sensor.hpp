@@ -15,7 +15,6 @@ struct sensorData{
     int32_t pm4;
     int32_t pm10;
     unsigned short status = SENSOR_STATUS::ERROR;
-    time_t time;
 };
 class Sensor
 {

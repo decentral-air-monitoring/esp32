@@ -94,6 +94,7 @@ int16_t SPS30::sps30_probe() {
 
 void SPS30::setup()
 {
+    s16_t ret;
     Serial.begin(115200);
     sensirion_uart_open();
 
@@ -104,6 +105,11 @@ void SPS30::setup()
 
     if (startMeasurementInt() != 0) {
         Serial.println("error starting measurement");
+    }
+    
+    ret = sps30_set_fan_auto_cleaning_interval_days(4);
+    if (ret) {
+        printf("error %d setting the auto-clean interval\n", ret);
     }
 }
 
@@ -141,6 +147,27 @@ int SPS30::stopMeasurement()
                               sizeof(param_buf), param_buf);
 }
 
+s16_t SPS30::sps30_set_fan_auto_cleaning_interval_days(uint8_t interval_days) {
+    return sps30_set_fan_auto_cleaning_interval((uint32_t)interval_days *
+                                                24 * 60 * 60);
+}
+
+s16_t SPS30::sps30_set_fan_auto_cleaning_interval(uint32_t interval_seconds) {
+    struct sensirion_shdlc_rx_header header;
+    uint8_t ix;
+    uint8_t cleaning_command[SPS30_CMD_FAN_CLEAN_INTV_LEN];
+    uint32_t value = be32_to_cpu(interval_seconds);
+
+    cleaning_command[0] = SPS30_SUBCMD_READ_FAN_CLEAN_INTV;
+    for (ix = 0; ix < sizeof(uint32_t); ix++)
+        cleaning_command[ix + 1] = (uint8_t)(value >> (8 * ix));
+    return sensirion_shdlc_xcv(SPS30_ADDR, SPS30_CMD_FAN_CLEAN_INTV,
+                               sizeof(cleaning_command),
+                               (const uint8_t *)cleaning_command,
+                               sizeof(interval_seconds), &header,
+                               (uint8_t *)&interval_seconds);
+}
+
 int SPS30::readMeasurement()
 {
     struct sensirion_shdlc_rx_header header;
@@ -174,7 +201,7 @@ int SPS30::readMeasurement()
     this->measurement.mass_pm10 = val.f32_value;
     ++idx;
     val.u32_value = be32_to_cpu(data[idx].u32_value);
-    //this->measurement.count_pm0_5 = val.f32_value;
+    this->measurement.count_pm0_5 = val.f32_value;
     ++idx;
     val.u32_value = be32_to_cpu(data[idx].u32_value);
     this->measurement.count_pm1 = val.f32_value;
@@ -189,7 +216,7 @@ int SPS30::readMeasurement()
     this->measurement.count_pm10 = val.f32_value;
     ++idx;
     val.u32_value = be32_to_cpu(data[idx].u32_value);
-    //this->measurement.typical_particle_size = val.f32_value;
+    this->measurement.typical_particle_size = val.f32_value;
 
     if (header.state)
         return SPS30_ERR_STATE(header.state);
@@ -201,5 +228,5 @@ void SPS30::startMeasurement() {
 
 }
 boolean SPS30::measurementStatus() {
-    return this->status;
+    return true;
 }
