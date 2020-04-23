@@ -12,13 +12,10 @@ DemoSensor::~DemoSensor()
 
 void DemoSensor::handle()
 {
-    time_t timer;
-
     data.pm1  = randomFloat(0,8);
     data.pm25 = randomFloat(0,8);
     data.pm4  = randomFloat(0,8);
     data.pm10 = randomFloat(0,8);
-    data.time = time(&timer);
 }
 
 sensorData DemoSensor::getData()
