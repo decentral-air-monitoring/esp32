@@ -109,7 +109,7 @@ void SPS30::setup()
     
     ret = sps30_set_fan_auto_cleaning_interval_days(4);
     if (ret) {
-        printf("error %d setting the auto-clean interval\n", ret);
+        Serial.printf("error %d setting the auto-clean interval\n", ret);
     }
 }
 
@@ -147,12 +147,12 @@ int SPS30::stopMeasurement()
                               sizeof(param_buf), param_buf);
 }
 
-s16_t SPS30::sps30_set_fan_auto_cleaning_interval_days(uint8_t interval_days) {
+int16_t SPS30::sps30_set_fan_auto_cleaning_interval_days(uint8_t interval_days) {
     return sps30_set_fan_auto_cleaning_interval((uint32_t)interval_days *
                                                 24 * 60 * 60);
 }
 
-s16_t SPS30::sps30_set_fan_auto_cleaning_interval(uint32_t interval_seconds) {
+int16_t SPS30::sps30_set_fan_auto_cleaning_interval(uint32_t interval_seconds) {
     struct sensirion_shdlc_rx_header header;
     uint8_t ix;
     uint8_t cleaning_command[SPS30_CMD_FAN_CLEAN_INTV_LEN];
