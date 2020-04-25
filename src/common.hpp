@@ -11,6 +11,9 @@ class Config;
 
 #define INVAL -300000
 
+#define KEY_LENGTH 20
+#define KEY_AMOUNT 20
+
 #include <Arduino.h>
 #include <string>
 #include <time.h>

@@ -5,7 +5,6 @@
 
 #include <Preferences.h>
 
-#define KEY_LENGTH 20
 #define VALUE_LENGTH 40
 
 enum class CONFIG_TYPE {
@@ -39,7 +38,7 @@ class Config{
 
         CONFIG_TYPE getType(const char * key);
 
-        const config_item keys[20] = {
+        const config_item keys[KEY_AMOUNT] = {
             {"CONFIGURED", CONFIG_TYPE::BOOL, {.b = false }},
             {"CONFIG_AP_NAME", CONFIG_TYPE::STRING, {.s = "Particle-Config"}},
             {"READ_INTERVAL", CONFIG_TYPE::INT, {.i = 10}},

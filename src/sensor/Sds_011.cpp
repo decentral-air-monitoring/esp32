@@ -49,6 +49,7 @@ void Sds_011::startMeasurement() {
     this->active = true;
     this->status = false;
 }
+
 boolean Sds_011::measurementStatus() {
     return this->status;
 }
