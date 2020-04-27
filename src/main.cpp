@@ -8,7 +8,9 @@
 // Globals
 OPERATION_MODE op_mode;
 AirQualityWifi air_wifi;
+#ifdef OLED_AVAILABLE
 Display display;
+#endif
 ConfigMode config_mode;
 SerialTerminal terminal;
 Config configuration;
@@ -41,11 +43,19 @@ void setup() {
   digitalWrite(LED_BUILTIN,ledState);
   // sensor->init(); ToDo: Actively initialize the sensor if necessary
   lora_en = configuration.getBool("LORA_ENABLED");
+  #ifdef OLED_AVAILABLE
   if(lora_en) {
-    Heltec.begin(true /*DisplayEnable Enable*/, true /*LoRa Enabled*/, true /*Serial Enable*/);
+    Heltec.begin(true /*DisplayEnable Enable*/, false /*LoRa Enabled*/, true /*Serial Enable*/);
   } else {
     Heltec.begin(true /*DisplayEnable Enable*/, false /*LoRa Disabled*/, true /*Serial Enable*/);
   }
+  #else
+  if(lora_en) {
+    Heltec.begin(false /*DisplayEnable Enable*/, false /*LoRa Enabled*/, true /*Serial Enable*/);
+  } else {
+    Heltec.begin(false /*DisplayEnable Enable*/, false /*LoRa Disabled*/, true /*Serial Enable*/);
+  }
+  #endif
   // Check Mode
   if(configuration.getBool("CONFIGURED")) {
     // Start normal operation
@@ -82,7 +92,9 @@ void setup() {
     op_mode = config;
   }
   air_wifi.init();
+  #ifdef OLED_AVAILABLE
   display.init();
+  #endif
   
   // Readout Timing
   read_interval = configuration.getInt("READ_INTERVAL")*1000;

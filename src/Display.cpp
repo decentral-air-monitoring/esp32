@@ -1,4 +1,5 @@
 #include "Display.hpp"
+#ifdef OLED_AVAILABLE
 
 Display::Display() {
 }
@@ -20,3 +21,4 @@ void Display::init() {
 void Display::update() {
     Heltec.display->display();
 }
+#endif
