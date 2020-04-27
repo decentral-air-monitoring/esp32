@@ -39,10 +39,11 @@ class Config{
 
         CONFIG_TYPE getType(const char * key);
 
-        const config_item keys[20] = {
+        const config_item keys[21] = {
             {"CONFIGURED", CONFIG_TYPE::BOOL, {.b = false }},
             {"CONFIG_AP_NAME", CONFIG_TYPE::STRING, {.s = "Particle-Config"}},
             {"READ_INTERVAL", CONFIG_TYPE::INT, {.i = 10}},
+            {"MQTT_ENABLED", CONFIG_TYPE::BOOL, {.b = true}},
             {"MQTT_PORT", CONFIG_TYPE::INT, {.i = 8883}},
             {"MQTT_SERVER", CONFIG_TYPE::STRING, {.s = "particle.nodelove.eu"}},
             {"MQTT_TOPIC", CONFIG_TYPE::STRING, {.s = "particle"}},

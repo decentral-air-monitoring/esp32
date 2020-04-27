@@ -31,6 +31,7 @@ AirSensor* air_sensor;
 boolean ledState=true;
 
 boolean lora_en=false;
+boolean mqtt_en=false;
 
 void setup() {
   Serial.begin(115200);
@@ -43,6 +44,7 @@ void setup() {
   digitalWrite(LED_BUILTIN,ledState);
   // sensor->init(); ToDo: Actively initialize the sensor if necessary
   lora_en = configuration.getBool("LORA_ENABLED");
+  mqtt_en = configuration.getBool("MQTT_ENABLED");
   #ifdef OLED_AVAILABLE
   if(lora_en) {
     Heltec.begin(true /*DisplayEnable Enable*/, false /*LoRa Enabled*/, true /*Serial Enable*/);
@@ -102,7 +104,10 @@ void setup() {
   if(op_mode == config) {
     config_mode.init();
   } else {
-    mqtt.init();
+    // Initialize MQTT if enabled
+    if(mqtt_en) {
+      mqtt.init();
+    }
     // Initialize LoRa if enabled
     if(lora_en) {
       ttn.init();
@@ -125,7 +130,9 @@ void loop() {
   if(op_mode == config) {
     config_mode.handle();
   } else {
-    mqtt.handle();
+    if(mqtt_en) {
+      mqtt.handle();
+    }
     if(lora_en) {
       ttn.handle();
     }
@@ -140,7 +147,9 @@ void loop() {
       // Send measurement data
       sensorData data = sensor->getData();
       airSensorData air_data = air_sensor->getData();
-      mqtt.send(data,air_data);
+      if(mqtt_en) {
+        mqtt.send(data,air_data);
+      }
       if(lora_en) {
         ttn.send(data,air_data);
       }
@@ -157,7 +166,9 @@ void loop() {
         // Send measurement data
         sensorData data = sensor->getData();
         airSensorData air_data = air_sensor->getData();
-        mqtt.send(data,air_data);
+        if(mqtt_en) {
+          mqtt.send(data,air_data);
+        }
         if(lora_en) {
           ttn.send(data,air_data);
         }
