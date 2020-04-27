@@ -3,10 +3,10 @@
 HPMA115C0::HPMA115C0() : Sensor()
 {
     this->serialPort.begin(9600,SERIAL_8N1);
-    this->data.pm10 = -1;
-    this->data.pm4 = -1;
-    this->data.pm25 = -1;
-    this->data.pm1 = -1;
+    this->data.pm10 = INVAL;
+    this->data.pm4 = INVAL;
+    this->data.pm25 = INVAL;
+    this->data.pm1 = INVAL;
 }
 
 HPMA115C0::~HPMA115C0()
