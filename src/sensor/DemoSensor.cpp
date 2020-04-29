@@ -3,7 +3,7 @@
 
 DemoSensor::DemoSensor() : Sensor()
 {
-    
+    this->data.status = SENSOR_STATUS::OK_MASS; 
 }
 
 DemoSensor::~DemoSensor()
@@ -12,10 +12,10 @@ DemoSensor::~DemoSensor()
 
 void DemoSensor::handle()
 {
-    data.pm1  = randomFloat(0,8);
-    data.pm25 = randomFloat(0,8);
-    data.pm4  = randomFloat(0,8);
-    data.pm10 = randomFloat(0,8);
+    data.pm1  = randomFloat(0,8)*1000;
+    data.pm25 = randomFloat(0,8)*1000;
+    data.pm4  = randomFloat(0,8)*1000;
+    data.pm10 = randomFloat(0,8)*1000;
 }
 
 sensorData DemoSensor::getData()

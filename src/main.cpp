@@ -32,10 +32,20 @@ boolean ledState=true;
 
 boolean lora_en=false;
 boolean mqtt_en=false;
+boolean oled_en=false;
 
 void setup() {
   Serial.begin(115200);
+  #ifdef LORA_AVAILABLE
+  lora_en = configuration.getBool("LORA_ENABLED");
+  #endif
+  #ifdef OLED_AVAILABLE
+  oled_en = true;
+  #endif
+  Heltec.begin(oled_en,lora_en,false);
   delay(1);
+  Serial.printf("Boot with LORA: %d\n",lora_en);
+  Serial.printf("Boot with OLED: %d\n",oled_en);
   // Setup Configuration
   configuration.init();
   terminal.init();
@@ -43,21 +53,7 @@ void setup() {
   pinMode(LED_BUILTIN,OUTPUT);
   digitalWrite(LED_BUILTIN,ledState);
   // sensor->init(); ToDo: Actively initialize the sensor if necessary
-  lora_en = configuration.getBool("LORA_ENABLED");
   mqtt_en = configuration.getBool("MQTT_ENABLED");
-  #ifdef OLED_AVAILABLE
-  if(lora_en) {
-    Heltec.begin(true /*DisplayEnable Enable*/, false /*LoRa Enabled*/, true /*Serial Enable*/);
-  } else {
-    Heltec.begin(true /*DisplayEnable Enable*/, false /*LoRa Disabled*/, true /*Serial Enable*/);
-  }
-  #else
-  if(lora_en) {
-    Heltec.begin(false /*DisplayEnable Enable*/, false /*LoRa Enabled*/, true /*Serial Enable*/);
-  } else {
-    Heltec.begin(false /*DisplayEnable Enable*/, false /*LoRa Disabled*/, true /*Serial Enable*/);
-  }
-  #endif
   // Check Mode
   if(configuration.getBool("CONFIGURED")) {
     // Start normal operation

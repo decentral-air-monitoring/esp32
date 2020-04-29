@@ -11,6 +11,7 @@ class Config;
 #define I2C_SDA 13
 #define I2C_SCL 17
 #define OLED_AVAILABLE
+#define LORA_AVAILABLE
 
 #elif ARDUINO_HELTEC_WIRELESS_STICK_LITE
 
@@ -18,7 +19,7 @@ class Config;
 #define RX2 10 //blau
 
 #define I2C_SDA 15
-#define I2C_SCL 12
+#define I2C_SCL 4
 
 #else
 

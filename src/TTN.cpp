@@ -1,4 +1,5 @@
 #include "TTN.hpp"
+#define UNUSED_PIN 0xFF
 
 TTN::TTN() {
 
@@ -9,6 +10,9 @@ void TTN::init() {
         configuration.getString("TTN_DEV_EUI").toCharArray(this->devEui,TTN_BUFFER);
         configuration.getString("TTN_APP_EUI").toCharArray(this->appEui,TTN_BUFFER);
         configuration.getString("TTN_APP_KEY").toCharArray(this->appKey,TTN_BUFFER);
+        //SPI.begin(SCK,MISO,MOSI,SS);
+        //this->ttn_class.begin(TTN_esp32_LMIC::GetPinmap_heltec_wireless_stick());
+        // this->ttn_class.begin(SS, UNUSED_PIN, RST_LoRa, DIO0,DIO1,DIO2);
         this->ttn_class.begin();
         this->join();
         this->status=TTN_STATUS::WAIT_JOIN;
