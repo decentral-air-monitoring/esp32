@@ -4,6 +4,8 @@
 #include "common.hpp"
 #include <WebServer.h>
 
+#define FORM_SIZE 200
+
 class ConfigMode {
     private:
         static WebServer::THandlerFunction formular();

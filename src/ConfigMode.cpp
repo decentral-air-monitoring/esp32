@@ -17,8 +17,8 @@ void ConfigMode::handle() {
 
 WebServer::THandlerFunction ConfigMode::formular() {
     Serial.println("GET /");
-    char form [75];
-    char temp[1500] = "<!DOCTYPE html>\
+    char form [FORM_SIZE];
+    char temp[FORM_SIZE*KEY_AMOUNT+1500] = "<!DOCTYPE html>\
             <HTML lang=\"en-us\">\
             <HEAD>\
                 <TITLE>\
@@ -26,24 +26,20 @@ WebServer::THandlerFunction ConfigMode::formular() {
                 </TITLE>\
             </HEAD>\
             <BODY>\
-                <form action=\"/formularPost\" method=\"POST\">\0";
-    char temp1[1500];
-    
+                <form action=\"/configuration\" method=\"POST\">\n\0";
 
     for(int i=0;i < KEY_AMOUNT;++i){
-        Serial.print("In For: ");
-        Serial.println(temp);
-        snprintf(temp1,1500,"%s",temp);
-        snprintf(temp,1500,"%s\n%s", temp1, config_mode.createHTMLForKey(config_mode.keys[i], form));
+        //Serial.print("In For: ");
+        //Serial.println(temp);
+        strncat(temp,config_mode.createHTMLForKey(config_mode.keys[i], form),FORM_SIZE);
     }
 
-    snprintf(temp1,1500,"%s",temp);
-    snprintf(temp,1500,"%s\
+    strncat(temp,"\
                     <button type=\"submit\">Submit</button>\
                 </form>\
             </BODY>\
             </HTML>"
-    ,temp1);
+    ,FORM_SIZE);
 
 
     config_mode.server.send(200,"text/html",temp);
@@ -51,6 +47,49 @@ WebServer::THandlerFunction ConfigMode::formular() {
 }
 
 WebServer::THandlerFunction ConfigMode::formularPost() {
+    Serial.println("GET /configuration");
+    for(int i=0;i < KEY_AMOUNT;++i){
+        if(config_mode.server.hasArg(config_mode.keys[i])){
+            Serial.println(config_mode.server.arg(config_mode.keys[i]));
+            CONFIG_TYPE keyType = configuration.getType(config_mode.keys[i]);
+
+            switch(keyType) {
+                case CONFIG_TYPE::STRING:
+                    char charBuffer [50];
+                    config_mode.server.arg(config_mode.keys[i]).toCharArray(charBuffer,50);
+                    configuration.setString(config_mode.keys[i], charBuffer);
+                break;
+
+                case CONFIG_TYPE::BOOL:
+                    configuration.setBool(config_mode.keys[i], config_mode.server.arg(config_mode.keys[i]));        
+                break;
+
+                case CONFIG_TYPE::INT:
+                    configuration.setInt(config_mode.keys[i], config_mode.server.arg(config_mode.keys[i]).toInt());
+                break;
+
+                case CONFIG_TYPE::FALSE:
+                default:
+                    
+                break;
+            }
+        }
+    }
+    config_mode.server.send(200,"text/html","<!DOCTYPE html>\
+            <HTML lang=\"en-us\">\
+            <HEAD>\
+                <TITLE>\
+                    Air Quality Setup\
+                </TITLE>\
+            </HEAD>\
+            <BODY>\
+            <div id=\"Success\">\
+                Configured!\
+            </div>\
+            <form action=\"/\" method=\"POST\">\
+                <button type=\"submit\">Go Back</button>\
+            </form>\
+            ");
     return 0;
 }
 
@@ -59,50 +98,52 @@ char * ConfigMode::createHTMLForKey(const char * key, char * htmlChar){
     
     switch(keyType) {
         case CONFIG_TYPE::STRING:
-            snprintf(htmlChar,100, 
+            char charBuffer [100];
+            configuration.getString(key).toCharArray(charBuffer,100);
+
+            snprintf(htmlChar,FORM_SIZE, 
             
             "<label for=\"%s\">%s:\
                 <input id=\"%s\" name=\"%s\" value=\"%s\">\
-            </label>"
-            ,key,key,key,key,configuration.getString(key));
+            </label><br />\n"
+            ,key,key,key,key,charBuffer);
         break;
 
         case CONFIG_TYPE::BOOL:
             if(configuration.getBool(key)){
-                snprintf(htmlChar,100, 
+                snprintf(htmlChar,FORM_SIZE, 
                 
                 "<label for=\"%s\">%s:\
                     <input type=\"checkbox\" id=\"%s\" name=\"%s\" checked>\
-                </label>"
+                </label><br />\n"
                 ,key,key,key,key);
             }else{
-                snprintf(htmlChar,100, 
+                snprintf(htmlChar,FORM_SIZE, 
                 
                 "<label for=\"%s\">%s:\
                     <input type=\"checkbox\" id=\"%s\" name=\"%s\">\
-                </label>"
+                </label><br />\n"
                 ,key,key,key,key);
             }
             
         break;
 
         case CONFIG_TYPE::INT:
-            snprintf(htmlChar,100, 
+            snprintf(htmlChar,FORM_SIZE, 
             
             "<label for=\"%s\">%s:\
                 <input id=\"%s\" name=\"%s\" value=\"%d\">\
-            </label>"
+            </label><br />\n"
             ,key,key,key,key,configuration.getInt(key));
         break;
 
         case CONFIG_TYPE::FALSE:
         default:
-            return " \0";
+            return '\0';
         break;
-
-        Serial.print("HTMLGEN: ");
-        Serial.println(htmlChar);
-        return htmlChar;
-
     }
+
+    //Serial.print("HTMLGEN: ");
+    //Serial.println(htmlChar);
+    return htmlChar;
 }
