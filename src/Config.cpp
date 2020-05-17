@@ -11,6 +11,10 @@ void Config::init() {
     #endif
 }
 
+void Config::factory() {
+    this->preferences.clear();
+}
+
 boolean Config::getBool(const char * key) {
     boolean d;
     if(this->itemExists(key, &d)) {
