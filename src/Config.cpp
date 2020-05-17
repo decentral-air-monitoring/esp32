@@ -6,9 +6,10 @@ Config::Config() {
 
 void Config::init() {
     this->preferences.begin("air-quality");
-    #ifdef FACTORY
+}
+
+void Config::factory() {
     this->preferences.clear();
-    #endif
 }
 
 boolean Config::getBool(const char * key) {

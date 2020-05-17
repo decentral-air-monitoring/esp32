@@ -10,6 +10,7 @@ BME680::BME680() : AirSensor()
         Serial.println("Wire: Initialization Error");
         return;
     }
+    Serial.printf("Initialized with SDA: %d, SCL: %d\n",I2C_SDA,I2C_SCL);
     bme = new Adafruit_BME680(&Wire);
     if(!bme->begin()) {
         Serial.println("BME680: Initialization Error");

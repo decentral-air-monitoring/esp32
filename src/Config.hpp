@@ -29,6 +29,7 @@ class Config{
     public:
         Config();
         void init();
+        void factory();
         boolean getBool(const char * key);
         String getString(const char * key);
         int getInt(const char * key);

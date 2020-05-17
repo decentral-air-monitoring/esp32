@@ -13,6 +13,7 @@ void SerialTerminal::printHelp() {
     Serial.println("'PRINT' for the current configuration");
     Serial.println("\"key=value\" to set a new value");
     Serial.println("'reboot' to restart the ESP");
+    Serial.println("'firstboot' for factory reset");
 }
 
 void SerialTerminal::printConfiguration() {
@@ -83,6 +84,11 @@ void SerialTerminal::receive() {
         return;
     }
     if(!strcmp(this->serialBuffer, "reboot")) {
+        ESP.restart();
+        return;
+    }
+    if(!strcmp(this->serialBuffer, "firstboot")) {
+        configuration.factory();
         ESP.restart();
         return;
     }
