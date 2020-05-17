@@ -30,10 +30,19 @@ int Config::getInt(const char * key) {
 
 String Config::getString(const char * key) {
     char d[VALUE_LENGTH];
+    char ret[VALUE_LENGTH];
     if(this->itemExists(key, d)) {
-        return this->preferences.getString(key, d);
+        if(this->preferences.getString(key, ret, VALUE_LENGTH)>0) {
+            Serial.flush();
+            return ret;
+        } else {
+            Serial.flush();
+            this->setString(key,d);
+            return d;
+        }
     };
-    return "false";
+    Serial.flush();
+    return d;
 }
 
 boolean Config::setString(const char * key, const char * val) {
