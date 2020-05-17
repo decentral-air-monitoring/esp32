@@ -4,7 +4,7 @@
 #include "common.hpp"
 #include <WebServer.h>
 
-#define FORM_SIZE 200
+#define FORM_SIZE 210
 
 class ConfigMode {
     private:
