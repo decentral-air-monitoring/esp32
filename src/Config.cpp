@@ -6,9 +6,6 @@ Config::Config() {
 
 void Config::init() {
     this->preferences.begin("air-quality");
-    #ifdef FACTORY
-    this->preferences.clear();
-    #endif
 }
 
 void Config::factory() {
