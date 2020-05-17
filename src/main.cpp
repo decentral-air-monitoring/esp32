@@ -36,6 +36,8 @@ boolean oled_en=false;
 
 void setup() {
   Serial.begin(115200);
+  // Setup Configuration
+  configuration.init();
   #ifdef LORA_AVAILABLE
   lora_en = configuration.getBool("LORA_ENABLED");
   #endif
@@ -46,8 +48,6 @@ void setup() {
   delay(1);
   Serial.printf("Boot with LORA: %d\n",lora_en);
   Serial.printf("Boot with OLED: %d\n",oled_en);
-  // Setup Configuration
-  configuration.init();
   terminal.init();
   // Status LED
   pinMode(LED_BUILTIN,OUTPUT);
