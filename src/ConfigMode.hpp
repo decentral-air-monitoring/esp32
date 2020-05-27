@@ -2,14 +2,14 @@
 #define CONFIGMODE_HPP
 
 #include "common.hpp"
-#include <WebServer.h>
 
-#define FORM_SIZE 210
+#define FORM_SIZE 235
 
 class ConfigMode {
     private:
         static WebServer::THandlerFunction formular();
         static WebServer::THandlerFunction formularPost();
+        static WebServer::THandlerFunction sendCss();
         char * createHTMLForKey(const char * key, char * htmlChar);
     public:
         ConfigMode();

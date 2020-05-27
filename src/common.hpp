@@ -3,8 +3,8 @@
 
 class Config;
 
-#define TX2 21 //grün
-#define RX2 22 //blau
+#define TX2 21
+#define RX2 22
 
 #define I2C_SDA 13
 #define I2C_SCL 17
@@ -17,6 +17,7 @@ class Config;
 #include <Arduino.h>
 #include <string>
 #include <time.h>
+#include <WebServer.h>
 #include "heltec.h"
 #include "Config.hpp"
 #include "AirQualityWiFi.hpp"
