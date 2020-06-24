@@ -23,6 +23,7 @@ private:
     void sendChecksum(byte data[], size_t len);
     HPMA_COMMAND command = HPMA_COMMAND::NONE;
     boolean measurement_available = false;
+    boolean measurement_running = false;
 public:
     HPMA115C0();
     ~HPMA115C0();
